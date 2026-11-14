@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { museumAudio } from '../utils/audio';
 import { ArrowUpRight, Compass } from 'lucide-react';
+import { HeroGlobe } from './HeroGlobe';
 
 interface HeroSectionProps {
   onExplore: () => void;
@@ -9,6 +10,7 @@ interface HeroSectionProps {
   moonCount: number;
   marsCount: number;
   deepSpaceCount: number;
+  onSelectSite?: (siteName: string) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -18,206 +20,124 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   moonCount,
   marsCount,
   deepSpaceCount,
+  onSelectSite,
 }) => {
   const [activePlanet, setActivePlanet] = useState<'moon' | 'mars'>('moon');
 
-  const handlePlanetToggle = (planet: 'moon' | 'mars') => {
-    museumAudio.playClick(planet === 'moon' ? 900 : 750);
-    setActivePlanet(planet);
-  };
-
   return (
-    <section className="relative w-full min-h-[580px] lg:min-h-[640px] flex items-center mb-12 sm:mb-16 pt-6 overflow-hidden">
-      {/* Background radial glow */}
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-slate-800/10 rounded-full blur-[140px] pointer-events-none" />
+    <section className="relative w-full min-h-[580px] lg:min-h-[640px] flex items-center mb-12 sm:mb-16 pt-2 overflow-hidden font-sans">
+      
+      {/* Background Ambience: Deep Space Radial Glows */}
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[650px] h-[650px] bg-sky-950/20 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/3 left-10 w-[450px] h-[450px] bg-amber-950/15 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* Two-Sided NOVA Layout Grid */}
+      {/* Main Two-Column NOVA Grid */}
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         
-        {/* LEFT COLUMN: Editorial Typography & Actions (5 cols) */}
+        {/* LEFT COLUMN: Editorial Scifi Typography & Actions (6 cols) */}
         <div className="lg:col-span-6 space-y-6 z-10">
           
-          {/* Status pill */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-mono text-[10px] tracking-[0.2em] text-slate-300 uppercase">
+          {/* Telemetry Status Subtext Pill */}
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-white/10 bg-[#050812]/80 backdrop-blur-md shadow-lg">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+            <span className="font-mono text-[10px] tracking-[0.25em] text-slate-300 uppercase font-medium">
               ARCHIVAL TELEMETRY ONLINE // SECTOR: SOL-IV
             </span>
           </div>
 
-          {/* Thin Uppercase NOVA Headline */}
+          {/* Bold, Uppercase, Spaced-out Heading */}
           <div className="space-y-1">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-heading font-light tracking-[0.14em] text-white uppercase leading-[1.08]">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-heading font-light tracking-[0.15em] text-white uppercase leading-[1.06]">
               ABANDONED.
               <br />
-              <span className="text-slate-300">BUT NOT</span>
+              <span className="text-slate-300 tracking-[0.16em]">BUT NOT</span>
               <br />
-              <span className="text-white">FORGOTTEN.</span>
+              <span className="text-white drop-shadow-[0_0_35px_rgba(255,255,255,0.18)]">FORGOTTEN.</span>
             </h1>
           </div>
 
-          {/* Editorial Description */}
-          <p className="text-sm sm:text-base text-slate-400 font-sans font-light leading-relaxed max-w-lg">
-            A minimalist digital museum documenting humanity’s silent technological monuments resting in perpetual vacuum across the Moon, the red plains of Mars, and the outer void.
+          {/* Sharp, Readable Small Editorial Subheading */}
+          <p className="text-xs sm:text-sm text-slate-300 font-sans font-light leading-relaxed max-w-lg">
+            A high-contrast digital museum documenting humanity’s silent technological monuments resting in perpetual vacuum across the Moon, the red plains of Mars, and the interstellar void.
           </p>
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-3 pt-1">
+          {/* High-Contrast Action CTAs */}
+          <div className="flex flex-wrap items-center gap-3.5 pt-2">
+            
+            {/* Prominent White/Glass Capsule Pill */}
             <button
               onClick={() => {
                 museumAudio.playClick(900);
                 onExplore();
               }}
-              className="px-6 py-2.5 rounded-full bg-white text-slate-950 font-heading text-xs font-normal tracking-wider hover:bg-slate-200 transition-all shadow-[0_0_25px_rgba(255,255,255,0.15)] flex items-center gap-2 active:scale-95"
+              className="px-7 py-3 rounded-full bg-white text-slate-950 font-heading text-xs font-semibold tracking-wider hover:bg-slate-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.25)] flex items-center gap-2 active:scale-95 group"
             >
               <span>EXPLORE ARCHIVE</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
 
+            {/* Ghost-Button Style with Subtle Cyan Icon Highlights */}
             <button
               onClick={() => {
                 museumAudio.playClick(850);
                 onOpenMap();
               }}
-              className="px-6 py-2.5 rounded-full nova-glass text-cyan-300 hover:text-white font-heading text-xs font-light tracking-wider hover:border-cyan-500/40 transition-all flex items-center gap-2 active:scale-95 border border-cyan-500/20"
+              className="px-6 py-3 rounded-full nova-glass text-slate-200 hover:text-white font-heading text-xs font-light tracking-wider hover:border-cyan-400/50 transition-all flex items-center gap-2 active:scale-95 border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] group"
             >
-              <Compass className="w-3.5 h-3.5 text-cyan-400 animate-spin" />
+              <Compass className="w-4 h-4 text-cyan-400 group-hover:rotate-45 transition-transform" />
               <span>3D ORBITAL TRACKER</span>
+              <span className="text-cyan-400 text-xs font-mono">⌖</span>
             </button>
           </div>
 
-          {/* Minimalist Telemetry Indicator Strip */}
-          <div className="grid grid-cols-4 gap-2 pt-6 border-t border-white/5 font-mono text-xs">
-            <div>
-              <div className="text-[10px] text-slate-400 uppercase tracking-widest">Total</div>
-              <div className="text-lg font-normal text-white mt-0.5">{totalArtifacts}</div>
-            </div>
-            <div>
-              <div className="text-[10px] text-slate-400 uppercase tracking-widest">Moon</div>
-              <div className="text-lg font-normal text-slate-300 mt-0.5">{moonCount}</div>
-            </div>
-            <div>
-              <div className="text-[10px] text-slate-400 uppercase tracking-widest">Mars</div>
-              <div className="text-lg font-normal text-amber-300/90 mt-0.5">{marsCount}</div>
-            </div>
-            <div>
-              <div className="text-[10px] text-slate-400 uppercase tracking-widest">Deep Space</div>
-              <div className="text-lg font-normal text-sky-300/90 mt-0.5">{deepSpaceCount}</div>
-            </div>
-          </div>
-        </div>
-
-        {/* RIGHT COLUMN: Massive Cinematic Planetary Visual (6 cols) */}
-        <div className="lg:col-span-6 relative flex items-center justify-center min-h-[380px] sm:min-h-[460px] lg:min-h-[520px]">
-          
-          {/* Subtle concentric orbital rings */}
-          <div className="absolute w-[360px] sm:w-[480px] lg:w-[540px] h-[360px] sm:h-[480px] lg:h-[540px] rounded-full border border-white/[0.04] pointer-events-none animate-[spin_120s_linear_infinite]" />
-          <div className="absolute w-[290px] sm:w-[390px] lg:w-[430px] h-[290px] sm:h-[390px] lg:h-[430px] rounded-full border border-dashed border-white/[0.06] pointer-events-none" />
-
-          {/* Elliptical tilted orbital trajectory line */}
-          <div 
-            className="absolute w-[440px] sm:w-[560px] h-[180px] sm:h-[220px] rounded-[100%] border border-white/[0.08] pointer-events-none -rotate-12"
-          />
-
-          {/* The Planetary Sphere with realistic side-lighting */}
-          <div className="relative w-64 sm:w-80 lg:w-96 h-64 sm:h-80 lg:h-96 rounded-full overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.9)] border border-white/5 group">
+          {/* Vertically Aligned Glowing Color-Coded Telemetry Stats */}
+          <div className="grid grid-cols-4 gap-3 pt-6 border-t border-white/10 font-mono text-xs">
             
-            {/* Texture background depending on Luna vs Ares */}
-            {activePlanet === 'moon' ? (
-              <div 
-                className="w-full h-full bg-cover bg-center transition-all duration-700 filter contrast-[1.12] brightness-90"
-                style={{
-                  backgroundImage: `radial-gradient(circle at 35% 35%, #2a3342 0%, #151a24 45%, #080b11 75%, #020408 100%)`
-                }}
-              >
-                {/* Lunar Mare Basins Overlay */}
-                <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-slate-400 via-slate-700 to-black pointer-events-none" />
+            <div className="space-y-1">
+              <div className="text-[10px] text-slate-400 uppercase tracking-widest">TOTAL</div>
+              <div className="text-xl font-normal text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
+                {totalArtifacts}
               </div>
-            ) : (
-              <div 
-                className="w-full h-full bg-cover bg-center transition-all duration-700 filter contrast-[1.15] brightness-90"
-                style={{
-                  backgroundImage: `radial-gradient(circle at 35% 35%, #c2410c 0%, #7c2d12 45%, #2a110a 75%, #040203 100%)`
-                }}
-              >
-                {/* Martian Surface Relief Overlay */}
-                <div className="absolute inset-0 opacity-45 mix-blend-overlay bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-amber-500 via-orange-950 to-black pointer-events-none" />
+              <div className="text-[9px] text-slate-500 uppercase">Relics</div>
+            </div>
+
+            <div className="space-y-1">
+              <div className="text-[10px] text-cyan-400/90 uppercase tracking-widest">MOON</div>
+              <div className="text-xl font-normal text-cyan-300 drop-shadow-[0_0_10px_rgba(56,189,248,0.5)]">
+                {moonCount}
               </div>
-            )}
+              <div className="text-[9px] text-cyan-400/60 uppercase">Sites</div>
+            </div>
 
-            {/* Dramatic Crescent Limb Terminator Line Lighting */}
-            <div 
-              className="absolute inset-0 rounded-full pointer-events-none"
-              style={{
-                boxShadow: activePlanet === 'moon'
-                  ? 'inset 18px 18px 40px rgba(255, 255, 255, 0.45), inset -30px -30px 60px rgba(0, 0, 0, 0.95)'
-                  : 'inset 18px 18px 45px rgba(251, 146, 60, 0.55), inset -30px -30px 60px rgba(0, 0, 0, 0.95)'
-              }}
-            />
+            <div className="space-y-1">
+              <div className="text-[10px] text-amber-400/90 uppercase tracking-widest">MARS</div>
+              <div className="text-xl font-normal text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]">
+                {marsCount}
+              </div>
+              <div className="text-[9px] text-amber-400/60 uppercase">Relics</div>
+            </div>
 
-            {/* Planetary Atmospheric Rim Glow */}
-            <div 
-              className="absolute inset-0 rounded-full pointer-events-none opacity-60"
-              style={{
-                boxShadow: activePlanet === 'moon'
-                  ? '0 0 50px rgba(148, 163, 184, 0.15)'
-                  : '0 0 50px rgba(234, 88, 12, 0.25)'
-              }}
-            />
+            <div className="space-y-1">
+              <div className="text-[10px] text-purple-400/90 uppercase tracking-widest">DEEP SPACE</div>
+              <div className="text-xl font-normal text-purple-300 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]">
+                {deepSpaceCount}
+              </div>
+              <div className="text-[9px] text-purple-400/60 uppercase">Probes</div>
+            </div>
+
           </div>
 
-          {/* Floating Glass Telemetry Information Tag 1 (Top Right) */}
-          <div className="absolute top-4 sm:top-10 right-0 sm:right-4 nova-glass px-3.5 py-2 rounded-xl text-left font-mono text-[11px] border border-white/10 shadow-2xl animate-fade-in">
-            <div className="flex items-center gap-1.5 text-slate-400 text-[9px] uppercase tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-              <span>{activePlanet === 'moon' ? 'TRANQUILITY BASE' : 'MERIDIANI PLANUM'}</span>
-            </div>
-            <div className="text-white font-normal mt-0.5 text-xs">
-              {activePlanet === 'moon' ? 'Apollo 11 Eagle' : 'Opportunity MER-B'}
-            </div>
-            <div className="text-[10px] text-slate-400">
-              {activePlanet === 'moon' ? '0.6741° N, 23.4730° E' : '2.2570° S, 354.7640° E'}
-            </div>
-          </div>
-
-          {/* Floating Glass Telemetry Information Tag 2 (Bottom Left) */}
-          <div className="absolute bottom-4 sm:bottom-8 left-0 sm:left-4 nova-glass px-3.5 py-2 rounded-xl text-left font-mono text-[11px] border border-white/10 shadow-2xl animate-fade-in hidden sm:block">
-            <div className="flex items-center gap-1.5 text-slate-400 text-[9px] uppercase tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
-              <span>{activePlanet === 'moon' ? 'HADLEY RILLE' : 'JEZERO CRATER'}</span>
-            </div>
-            <div className="text-white font-normal mt-0.5 text-xs">
-              {activePlanet === 'moon' ? 'LRV-001 (Apollo 15)' : 'Ingenuity Helicopter'}
-            </div>
-            <div className="text-[10px] text-slate-400">
-              {activePlanet === 'moon' ? '26.1322° N, 3.6339° E' : '18.4447° N, 77.4508° E'}
-            </div>
-          </div>
-
-          {/* Interactive Celestial Planet Selector Pill (Bottom Center) */}
-          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 nova-glass p-1 rounded-full border border-white/10 flex items-center gap-1 z-20">
-            <button
-              onClick={() => handlePlanetToggle('moon')}
-              className={`px-3 py-1 rounded-full text-[11px] font-heading tracking-wider transition-all ${
-                activePlanet === 'moon'
-                  ? 'bg-white/15 text-white font-normal'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              LUNA
-            </button>
-            <button
-              onClick={() => handlePlanetToggle('mars')}
-              className={`px-3 py-1 rounded-full text-[11px] font-heading tracking-wider transition-all ${
-                activePlanet === 'mars'
-                  ? 'bg-amber-500/20 text-amber-300 font-normal border border-amber-500/30'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              ARES
-            </button>
-          </div>
         </div>
+
+        {/* RIGHT COLUMN: The Vibrant 3D Centerpiece Globe (6 cols) */}
+        <div className="lg:col-span-6 relative flex items-center justify-center">
+          <HeroGlobe
+            activePlanet={activePlanet}
+            onTogglePlanet={(planet) => setActivePlanet(planet)}
+            onSelectSite={onSelectSite}
+          />
+        </div>
+
       </div>
     </section>
   );

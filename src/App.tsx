@@ -104,6 +104,21 @@ export function App() {
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
               onOpenMap={() => setCurrentView('tracker')}
+              onSelectSite={(siteName) => {
+                if (siteName.includes('TRANQUILITY')) {
+                  const item = ARTIFACTS.find(a => a.id === 'apollo-11-eagle');
+                  if (item) setActiveArtifact(item);
+                } else if (siteName.includes('HADLEY')) {
+                  const item = ARTIFACTS.find(a => a.id === 'apollo-15-lrv');
+                  if (item) setActiveArtifact(item);
+                } else if (siteName.includes('MERIDIANI')) {
+                  const item = ARTIFACTS.find(a => a.id === 'opportunity-rover');
+                  if (item) setActiveArtifact(item);
+                } else if (siteName.includes('JEZERO')) {
+                  const item = ARTIFACTS.find(a => a.id === 'ingenuity-helicopter');
+                  if (item) setActiveArtifact(item);
+                }
+              }}
             />
 
             {/* THREE CORE STORY-DRIVEN & EDUCATIONAL MODULES BANNER */}
