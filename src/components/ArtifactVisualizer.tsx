@@ -66,10 +66,18 @@ export const ArtifactVisualizer: React.FC<ArtifactVisualizerProps> = ({
         >
           {/* Real World NASA Archival Image */}
           <img
-            src={artifact.imageUrl}
+            src={artifact.imageUrl || `/images/artifacts/${artifact.id}.jpg`}
             alt={artifact.name}
-            onError={() => setImageError(true)}
-            className="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.08] transition-transform duration-500 group-hover/img:scale-105"
+            onError={(e) => {
+              const target = e.currentTarget;
+              const localPath = `/images/artifacts/${artifact.id}.jpg`;
+              if (target.src !== window.location.origin + localPath) {
+                target.src = localPath;
+              } else {
+                setImageError(true);
+              }
+            }}
+            className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.08] transition-transform duration-500 group-hover/img:scale-105"
             loading="lazy"
           />
 

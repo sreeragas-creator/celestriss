@@ -44,7 +44,8 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
     onClose();
   };
 
-  const hasAuthenticPhoto = !!artifact.imageUrl && !imageFailed;
+  const fallbackPath = `/images/artifacts/${artifact.id}.jpg`;
+  const imageSource = artifact.imageUrl || fallbackPath;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/90 backdrop-blur-md animate-fade-in font-sans">
@@ -87,9 +88,9 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
         <div className="p-6 sm:p-8 space-y-8">
           
           {/* Main Title Section */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/10 pb-6">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-widest mb-1.5">
+          <div className="border-b border-white/10 pb-6 space-y-2.5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-widest">
                 <span>{artifact.agency}</span>
                 <span>•</span>
                 <span>{artifact.country}</span>
@@ -98,26 +99,28 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
                 <span>•</span>
                 <span className="text-slate-300">YEAR {artifact.launchYear}</span>
               </div>
-              <h1 className="text-2xl sm:text-4xl font-light tracking-wide text-white font-heading">
-                {artifact.name}
-              </h1>
-              <p className="text-xs sm:text-sm font-mono text-slate-400 mt-2 flex items-center gap-2">
-                <span className="text-[#FFB800]">DESTINATION:</span> 
-                <span className="text-slate-200">{artifact.coordinates.landingSite}</span>
-                {artifact.coordinates.region && (
-                  <span className="text-slate-500">({artifact.coordinates.region})</span>
-                )}
-              </p>
+
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] text-xs font-mono text-slate-300">
+                  CLASS: {artifact.category.replace('_', ' ').toUpperCase()}
+                </span>
+                <span className="px-3 py-1 rounded-full border border-[#FFB800]/30 bg-[#FFB800]/10 text-xs font-mono text-[#FFB800]">
+                  STATUS: {artifact.status.replace('_', ' ').toUpperCase()}
+                </span>
+              </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] text-xs font-mono text-slate-300">
-                CLASS: {artifact.category.replace('_', ' ').toUpperCase()}
-              </span>
-              <span className="px-3 py-1 rounded-full border border-[#FFB800]/30 bg-[#FFB800]/10 text-xs font-mono text-[#FFB800]">
-                STATUS: {artifact.status.replace('_', ' ').toUpperCase()}
-              </span>
-            </div>
+            <h1 className="text-2xl sm:text-4xl font-light tracking-wide text-white font-heading">
+              {artifact.name}
+            </h1>
+
+            <p className="text-xs sm:text-sm font-mono text-slate-400 flex items-center gap-2">
+              <span className="text-[#FFB800] font-medium">DESTINATION:</span> 
+              <span className="text-slate-200">{artifact.coordinates.landingSite}</span>
+              {artifact.coordinates.region && (
+                <span className="text-slate-500">({artifact.coordinates.region})</span>
+              )}
+            </p>
           </div>
 
           {/* TWO-COLUMN CORE EXHIBIT LAYOUT (7 cols Photo : 5 cols Telemetry) */}
@@ -126,14 +129,21 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
             {/* LEFT COLUMN: Large Cinematic Archival Photograph */}
             <div className="lg:col-span-7 flex flex-col justify-between rounded-2xl border border-white/10 bg-[#070b16] overflow-hidden relative min-h-[380px] lg:min-h-[440px] shadow-2xl group">
               
-              {hasAuthenticPhoto ? (
+              {!imageFailed ? (
                 <>
                   {/* The Monument Archival Photograph */}
                   <img
-                    src={artifact.imageUrl}
+                    src={imageSource}
                     alt={artifact.name}
-                    onError={() => setImageFailed(true)}
-                    className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.08] transition-transform duration-700 group-hover:scale-105"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src !== window.location.origin + fallbackPath) {
+                        target.src = fallbackPath;
+                      } else {
+                        setImageFailed(true);
+                      }
+                    }}
+                    className="w-full h-full object-cover object-center filter brightness-[0.95] contrast-[1.08] transition-transform duration-700 group-hover:scale-105"
                     loading="eager"
                   />
 
