@@ -6,19 +6,25 @@ import {
   VolumeX, 
   Search, 
   Bell, 
-  CircleDot
+  CircleDot,
+  Sparkles,
+  Rocket
 } from 'lucide-react';
 
 interface NavbarProps {
   currentView: ViewMode;
   onSelectView: (view: ViewMode) => void;
   onOpenSearch: () => void;
+  isJuniorMode: boolean;
+  onToggleJuniorMode: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentView,
   onSelectView,
   onOpenSearch,
+  isJuniorMode,
+  onToggleJuniorMode
 }) => {
   const [isAudioActive, setIsAudioActive] = useState(false);
   const [showNotice, setShowNotice] = useState(false);
@@ -28,20 +34,22 @@ export const Navbar: React.FC<NavbarProps> = ({
     setIsAudioActive(active);
   };
 
-  const navItems: { id: ViewMode; label: string }[] = [
+  const navItems: { id: ViewMode; label: string; highlight?: boolean }[] = [
     { id: 'overview', label: 'Home' },
-    { id: 'tracker', label: '3D Tracker' },
-    { id: 'moon', label: 'Moon Archive' },
-    { id: 'mars', label: 'Mars Archive' },
-    { id: 'radar', label: 'Radar' },
-    { id: 'memorial', label: 'Silent Witnesses' },
+    { id: 'story', label: '📖 Story Mode', highlight: true },
+    { id: 'lab', label: '🚀 Rocket Lab', highlight: true },
+    { id: 'quest', label: '🔍 Detective Quest', highlight: true },
+    { id: 'timeline', label: 'Timeline' },
+    { id: 'moon', label: 'Moon' },
+    { id: 'mars', label: 'Mars' },
     { id: 'deep_space', label: 'Deep Space' },
+    { id: 'memorial', label: 'Memorial' },
   ];
 
   return (
     <header className="sticky top-4 z-50 w-full max-w-7xl mx-auto px-4 sm:px-6">
       {/* Floating Glass Pill Container */}
-      <div className="nova-glass rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4 shadow-[0_16px_40px_rgba(0,0,0,0.8)] border border-white/10">
+      <div className="nova-glass rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 shadow-[0_16px_40px_rgba(0,0,0,0.8)] border border-white/10">
         
         {/* Brand */}
         <div 
@@ -58,7 +66,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden xl:flex items-center gap-1">
           {navItems.map((item) => {
             const isActive = currentView === item.id;
             return (
@@ -68,9 +76,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   museumAudio.playClick(850);
                   onSelectView(item.id);
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-heading tracking-wide transition-all ${
+                className={`px-3 py-1.5 rounded-full text-xs font-heading tracking-wide transition-all ${
                   isActive
-                    ? 'bg-white/10 text-white font-normal border border-white/15 shadow-[0_0_15px_rgba(255,255,255,0.06)]'
+                    ? 'bg-white/15 text-white font-normal border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.06)]'
+                    : item.highlight
+                    ? 'text-amber-300 hover:text-white hover:bg-white/5 font-medium'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 font-light'
                 }`}
               >
@@ -81,7 +91,34 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Right Utility Controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
+          
+          {/* Junior Explorer Mode Toggle */}
+          <button
+            onClick={() => {
+              museumAudio.playScanPing();
+              onToggleJuniorMode();
+            }}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold transition-all border ${
+              isJuniorMode
+                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.5)]'
+                : 'bg-white/5 text-slate-300 border-white/10 hover:border-white/20'
+            }`}
+            title="Toggle Junior Explorer Mode (School-age friendly)"
+          >
+            {isJuniorMode ? (
+              <>
+                <Rocket className="w-3.5 h-3.5 fill-current" />
+                <span className="hidden sm:inline">JUNIOR EXPLORER</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="hidden sm:inline">ARCHIVE MODE</span>
+              </>
+            )}
+          </button>
+
           {/* Quick Search */}
           <button
             onClick={() => {
@@ -94,7 +131,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Search className="w-3.5 h-3.5" />
           </button>
 
-          {/* 3D Tracker Pill Button matching reference */}
+          {/* 3D Tracker Pill Button */}
           <button
             onClick={() => {
               museumAudio.playClick(900);
@@ -157,7 +194,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   NASA Goldstone, Madrid & Canberra tracking stations synchronized.
                 </p>
                 <div className="text-[10px] text-slate-400 border-t border-white/10 pt-1.5">
-                  18 historical relics monitored in vacuum.
+                  19 historical relics monitored in vacuum.
                 </div>
               </div>
             )}
@@ -165,8 +202,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Horizontal Scroll for Navigation */}
-      <div className="flex lg:hidden items-center justify-between overflow-x-auto py-2 mt-2 gap-1 text-xs font-heading">
+      {/* Mobile / Tablet Horizontal Scroll for Navigation */}
+      <div className="flex xl:hidden items-center overflow-x-auto py-2 mt-2 gap-1 text-xs font-heading scrollbar-none">
         {navItems.map((item) => {
           const isActive = currentView === item.id;
           return (
@@ -179,6 +216,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`px-3 py-1 rounded-full whitespace-nowrap text-xs transition-colors ${
                 isActive
                   ? 'bg-white/15 text-white font-normal'
+                  : item.highlight
+                  ? 'text-amber-300 hover:text-white'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >

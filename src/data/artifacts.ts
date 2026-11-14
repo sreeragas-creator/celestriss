@@ -54,6 +54,12 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'lander'
+    },
+    kidFriendly: {
+      sizeComparison: 'About the size of a two-story clubhouse (4.2 meters tall) with golden legs.',
+      weightComparison: 'Weighed 4,400 kg on Earth, but only 730 kg in the Moon’s gentle 1/6th gravity!',
+      funFact: 'Bolted to its front leg is a world peace plaque signed by the astronauts and President Nixon: "We came in peace for all mankind." It also holds a silicone disc with messages from 73 countries!',
+      whyLeftBehind: 'It served as the launchpad! Neil Armstrong and Buzz Aldrin fired the rocket engine on the upper stage to leave, leaving the heavy descent base behind to save fuel for the trip home.'
     }
   },
   {
@@ -106,6 +112,12 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#E2E8F0',
       schematicType: 'vehicle'
+    },
+    kidFriendly: {
+      sizeComparison: 'Size of a compact dune buggy (10 feet long, 6 feet wide).',
+      weightComparison: 'Weighed 460 lbs on Earth, but only 77 lbs on the Moon—astronauts could lift it by hand!',
+      funFact: 'Its tires were NOT made of rubber—rubber freezes and shatters in space! They were woven like chainmail from piano wire with titanium chevrons for grip!',
+      whyLeftBehind: 'Rockets couldn’t carry the heavy car back off the Moon. Its TV camera was left pointing at the launch site so Earth could watch the astronauts blast off!'
     }
   },
   {
@@ -159,6 +171,12 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'vehicle'
+    },
+    kidFriendly: {
+      sizeComparison: 'Size of an off-road electric buggy built for climbing steep mountain craters.',
+      weightComparison: 'Weighed 460 lbs on Earth, but only 77 lbs on the Moon!',
+      funFact: 'Astronaut John Young did a Moon donut drift nicknamed the "Grand Prix" kicking up rooster tails of lunar dust!',
+      whyLeftBehind: 'Left parked on Stone Mountain after driving 26 km, saving weight so the astronauts could return with 209 lbs of Moon rocks!'
     }
   },
   {
@@ -212,6 +230,12 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'vehicle'
+    },
+    kidFriendly: {
+      sizeComparison: 'Traveled 22 miles across mountains—the ultimate space road trip buggy!',
+      weightComparison: 'Carried 243 pounds of priceless Moon rocks and orange volcanic glass beads!',
+      funFact: 'When an astronaut broke the fender with a hammer, they fixed it with gray duct tape and Moon maps! That taped map fender is still resting on the Moon right now!',
+      whyLeftBehind: 'Parked about 100 meters away so its TV camera could broadcast the final Apollo astronauts blasting off for Earth.'
     }
   },
   {
@@ -264,6 +288,11 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'package'
+    },
+    kidFriendly: {
+      sizeComparison: 'A high-tech scientific campsite with suitcase-sized sensors spread across a soccer field.',
+      funFact: 'Scientists on Earth STILL shoot laser beams from giant telescopes at its mirror prisms today! By timing how fast the laser bounces back, they measure the Moon’s exact distance to within a millimeter!',
+      whyLeftBehind: 'Designed specifically to stay on the Moon forever to listen for Moonquakes and meteorite crashes long after the astronauts flew home.'
     }
   },
   {
@@ -315,6 +344,11 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#10B981',
       schematicType: 'lander'
+    },
+    kidFriendly: {
+      sizeComparison: 'A three-legged robotic scout about the height of a grown person (3 meters tall).',
+      funFact: 'Before Surveyor 1, some astronomers were terrified that the Moon was covered in a deep ocean of quicksand dust that would swallow spaceships! Surveyor landed and sank only 2 inches, proving the surface was solid!',
+      whyLeftBehind: 'A robotic one-way scout sent to test the ground before NASA risked sending human astronauts.'
     }
   },
   {
@@ -366,6 +400,11 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'lander'
+    },
+    kidFriendly: {
+      sizeComparison: 'A spider-legged robot with an extendable trench-digging shovel arm.',
+      funFact: 'Apollo 12 astronauts walked right up to it in 1969 and took selfies with it! They used bolt cutters to snip off its camera and brought it home to Earth to study space weathering!',
+      whyLeftBehind: 'Only its camera returned to Earth; the rest remains perched on the rim of Surveyor Crater as a historic landmark.'
     }
   },
 
@@ -422,6 +461,12 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#10B981',
       schematicType: 'rover'
+    },
+    kidFriendly: {
+      sizeComparison: 'The size of a family microwave oven (only 25 lbs / 11.5 kg)!',
+      speedComparison: 'Top speed: 0.4 inches per second—a garden snail could beat it in a sprint!',
+      funFact: 'It was the very first wheeled rover to drive on Mars! NASA scientists named the rocks it inspected after cartoon characters like "Barnacle Bill", "Yogi Bear", and "Scooby Doo"!',
+      whyLeftBehind: 'A small demonstration rover with no way to fly home. When its lander’s battery died in the cold, Sojourner gently rested nearby.'
     }
   },
   {
@@ -474,6 +519,11 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#EF4444',
       schematicType: 'rover'
+    },
+    kidFriendly: {
+      sizeComparison: 'About the size of a golf cart with solar panel wings.',
+      funFact: 'When one of its wheels jammed in 2006, Spirit drove backwards dragging the broken wheel. By doing that, the dragging wheel scraped open pure white silica powder—proving Mars once had ancient hot springs and geysers!',
+      whyLeftBehind: 'Got stuck in soft sand at a spot called "Troy". When winter came, its solar panels couldn’t point to the sun, and the freezing cold put it to sleep forever.'
     }
   },
   {
@@ -526,6 +576,11 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'rover'
+    },
+    kidFriendly: {
+      sizeComparison: 'Size of a golf cart, affectionately called "Oppy". Completed an interplanetary marathon of 28.1 miles (45 km)!',
+      funFact: 'Designed to last only 90 days, Oppy survived for nearly 15 years! Whirling Martian dust devils actually helped clean dust off its solar panels to keep it alive!',
+      whyLeftBehind: 'A massive, planet-wide dust storm blotted out the sun in 2018, draining Oppy’s batteries after the greatest robotic marathon in human history.'
     }
   },
   {
@@ -679,6 +734,11 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'lander'
+    },
+    kidFriendly: {
+      sizeComparison: 'A three-legged robotic laboratory with a mechanical backhoe arm.',
+      funFact: 'It scraped the Martian soil near the north pole and discovered real water ice! It also spotted snow falling from clouds in the Martian sky!',
+      whyLeftBehind: 'During the harsh Martian winter, the sun never rises and hundreds of pounds of freezing dry-ice snow crushed its solar panels.'
     }
   },
   {
@@ -730,6 +790,11 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'lander'
+    },
+    kidFriendly: {
+      sizeComparison: 'Like a robotic doctor listening to the heartbeat of Mars with a super stethoscope!',
+      funFact: 'Its seismometer was so sensitive it could hear vibrations smaller than the width of a single atom! It recorded over 1,300 Marsquakes!',
+      whyLeftBehind: 'Martian dust storms slowly covered its round solar panels until it didn’t have enough electricity to send signals home.'
     }
   },
   {
@@ -782,6 +847,12 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'helicopter'
+    },
+    kidFriendly: {
+      sizeComparison: 'Weighs only 4 pounds (1.8 kg)—light enough to hold in one hand!',
+      speedComparison: 'Its twin carbon blades spun at 2,400 RPM—5x faster than a helicopter on Earth because the air on Mars is so thin!',
+      funFact: 'Under its solar panel, it carries a tiny square of wing fabric from the Wright Brothers’ original 1903 airplane from Kitty Hawk! It flew 72 times when NASA only hoped for 5!',
+      whyLeftBehind: 'A hard landing chipped its rotor blade tips, so it can’t fly anymore. But its solar panel still wakes up every day to measure Martian weather!'
     }
   },
 
@@ -935,6 +1006,11 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'probe'
+    },
+    kidFriendly: {
+      sizeComparison: 'A dish antenna probe about the size of a family car.',
+      funFact: 'Carries a solid gold-coated plaque designed by Carl Sagan! It features drawings of a human man and woman waving, plus a star map showing alien civilizations how to find planet Earth in the galaxy!',
+      whyLeftBehind: 'Traveling so fast that the Sun’s gravity can never pull it back! It will drift silently across the Milky Way for billions of years.'
     }
   },
   {
@@ -984,6 +1060,11 @@ export const ARTIFACTS: Artifact[] = [
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'telescope'
+    },
+    kidFriendly: {
+      sizeComparison: 'A space telescope about the size of a delivery van, with a 95-megapixel digital eye!',
+      funFact: 'It discovered over 2,600 alien planets orbiting distant stars! Before Kepler, humans didn’t know if planets were rare; now we know planets outnumber the stars!',
+      whyLeftBehind: 'Orbits the Sun 94 million miles away from Earth. When its steering thruster fuel ran out, NASA sent it a final "goodnight" command to rest in peace.'
     }
   }
 ];

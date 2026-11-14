@@ -9,11 +9,18 @@ import { PlanetaryMap } from './components/PlanetaryMap';
 import { OrbitalTracker } from './components/OrbitalTracker';
 import { MemorialView } from './components/MemorialView';
 import { DeepSpaceView } from './components/DeepSpaceView';
+import { StoryMode } from './components/StoryMode';
+import { RocketLab } from './components/RocketLab';
+import { QuestMode } from './components/QuestMode';
+import { TimelineView } from './components/TimelineView';
 import { museumAudio } from './utils/audio';
 import { 
   Search, 
   X, 
-  Compass
+  Compass,
+  BookOpen,
+  Rocket,
+  ShieldCheck
 } from 'lucide-react';
 
 export function App() {
@@ -23,6 +30,7 @@ export function App() {
   const [activeArtifact, setActiveArtifact] = useState<Artifact | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [eraFilter, setEraFilter] = useState<string>('all');
+  const [isJuniorMode, setIsJuniorMode] = useState<boolean>(true);
 
   // Filtered lists for Moon and Mars
   const moonArtifacts = useMemo(() => ARTIFACTS.filter(a => a.celestialBody === 'moon'), []);
@@ -75,6 +83,8 @@ export function App() {
         currentView={currentView}
         onSelectView={setCurrentView}
         onOpenSearch={() => setIsSearchOpen(true)}
+        isJuniorMode={isJuniorMode}
+        onToggleJuniorMode={() => setIsJuniorMode(!isJuniorMode)}
       />
 
       {/* Main Content Viewport */}
@@ -95,6 +105,110 @@ export function App() {
               }}
               onOpenMap={() => setCurrentView('tracker')}
             />
+
+            {/* THREE CORE STORY-DRIVEN & EDUCATIONAL MODULES BANNER */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              
+              {/* Module 1: Story Mode */}
+              <div 
+                onClick={() => {
+                  museumAudio.playClick(900);
+                  setCurrentView('story');
+                }}
+                className="group relative cursor-pointer overflow-hidden rounded-3xl p-6 bg-gradient-to-br from-amber-950/40 via-[#070c1a] to-[#040711] border border-amber-500/30 hover:border-amber-400 transition-all duration-300 shadow-xl flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300">
+                      <BookOpen className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-mono text-amber-300 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20">
+                      4 CHAPTERS • NARRATED
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-heading text-white group-hover:text-amber-200 transition-colors">
+                      Chronicles of the Abandoned
+                    </h3>
+                    <p className="text-xs text-slate-300 font-sans mt-1 leading-relaxed font-light">
+                      Step into 2099 as a Cadet Space Archaeologist. Hear the untold stories, final whispers, and heroic missions of machines left on the Moon & Mars.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-amber-400 group-hover:text-amber-300">
+                  <span className="font-bold">LAUNCH EXPEDITION</span>
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </div>
+
+              {/* Module 2: Rocket Lab */}
+              <div 
+                onClick={() => {
+                  museumAudio.playClick(900);
+                  setCurrentView('lab');
+                }}
+                className="group relative cursor-pointer overflow-hidden rounded-3xl p-6 bg-gradient-to-br from-cyan-950/40 via-[#070c1a] to-[#040711] border border-cyan-500/30 hover:border-cyan-400 transition-all duration-300 shadow-xl flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300">
+                      <Rocket className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-mono text-cyan-300 bg-cyan-400/10 px-2.5 py-0.5 rounded-full border border-cyan-400/20">
+                      PHYSICS SIMULATOR
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-heading text-white group-hover:text-cyan-200 transition-colors">
+                      Why Did We Leave It Behind?
+                    </h3>
+                    <p className="text-xs text-slate-300 font-sans mt-1 leading-relaxed font-light">
+                      Why didn't NASA bring Opportunity or the Apollo buggies home? Test the rocket equation, calculate return fuel mass, and explore delta-v physics!
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-cyan-400 group-hover:text-cyan-300">
+                  <span className="font-bold">ENTER ROCKET LAB</span>
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </div>
+
+              {/* Module 3: Quest Mode */}
+              <div 
+                onClick={() => {
+                  museumAudio.playClick(900);
+                  setCurrentView('quest');
+                }}
+                className="group relative cursor-pointer overflow-hidden rounded-3xl p-6 bg-gradient-to-br from-purple-950/40 via-[#070c1a] to-[#040711] border border-purple-500/30 hover:border-purple-400 transition-all duration-300 shadow-xl flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300">
+                      <ShieldCheck className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-mono text-purple-300 bg-purple-400/10 px-2.5 py-0.5 rounded-full border border-purple-400/20">
+                      5 CASE FILES • BADGES
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-heading text-white group-hover:text-purple-200 transition-colors">
+                      Cosmic Detective Quest
+                    </h3>
+                    <p className="text-xs text-slate-300 font-sans mt-1 leading-relaxed font-light">
+                      Inspect astronaut log clues and radar fingerprints to solve Cold Case Files and earn your Chief Planetary Investigator Badge!
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-purple-400 group-hover:text-purple-300">
+                  <span className="font-bold">SOLVE CASE FILES</span>
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </div>
+
+            </div>
 
             {/* Quick Section Shortcuts */}
             <div id="archive-grid" className="space-y-6">
@@ -136,6 +250,7 @@ export function App() {
                     key={artifact.id}
                     artifact={artifact}
                     onSelect={(item) => setActiveArtifact(item)}
+                    isJuniorMode={isJuniorMode}
                   />
                 ))}
               </div>
@@ -234,6 +349,7 @@ export function App() {
                     key={artifact.id}
                     artifact={artifact}
                     onSelect={(item) => setActiveArtifact(item)}
+                    isJuniorMode={isJuniorMode}
                   />
                 ))}
               </div>
@@ -321,6 +437,7 @@ export function App() {
                     key={artifact.id}
                     artifact={artifact}
                     onSelect={(item) => setActiveArtifact(item)}
+                    isJuniorMode={isJuniorMode}
                   />
                 ))}
               </div>
@@ -357,6 +474,49 @@ export function App() {
               artifacts={ARTIFACTS}
               onSelectArtifact={(item) => setActiveArtifact(item)}
               onOpenRadar={() => setCurrentView('tracker')}
+            />
+          </div>
+        )}
+
+        {/* VIEW: STORY EXPEDITION MODE */}
+        {currentView === 'story' && (
+          <div className="animate-fade-in">
+            <StoryMode
+              artifacts={ARTIFACTS}
+              onSelectArtifact={(item) => setActiveArtifact(item)}
+              isJuniorMode={isJuniorMode}
+            />
+          </div>
+        )}
+
+        {/* VIEW: ROCKET & PHYSICS LAB */}
+        {currentView === 'lab' && (
+          <div className="animate-fade-in">
+            <RocketLab
+              artifacts={ARTIFACTS}
+              onSelectArtifact={(item) => setActiveArtifact(item)}
+              isJuniorMode={isJuniorMode}
+            />
+          </div>
+        )}
+
+        {/* VIEW: COSMIC DETECTIVE QUEST */}
+        {currentView === 'quest' && (
+          <div className="animate-fade-in">
+            <QuestMode
+              artifacts={ARTIFACTS}
+              onSelectArtifact={(item) => setActiveArtifact(item)}
+              isJuniorMode={isJuniorMode}
+            />
+          </div>
+        )}
+
+        {/* VIEW: INTERPLANETARY TIMELINE */}
+        {currentView === 'timeline' && (
+          <div className="animate-fade-in">
+            <TimelineView
+              artifacts={ARTIFACTS}
+              onSelectArtifact={(item) => setActiveArtifact(item)}
             />
           </div>
         )}
@@ -420,6 +580,8 @@ export function App() {
       <ArtifactModal
         artifact={activeArtifact}
         onClose={() => setActiveArtifact(null)}
+        isJuniorMode={isJuniorMode}
+        onNavigateView={(view) => setCurrentView(view)}
       />
 
       {/* Minimalist Footer */}

@@ -29,6 +29,53 @@ export interface Coordinates {
   distanceFromSunAU?: string; // for deep space
 }
 
+export interface KidComparison {
+  sizeComparison: string;
+  weightComparison?: string;
+  speedComparison?: string;
+  funFact: string;
+  whyLeftBehind: string;
+}
+
+export interface StoryChapter {
+  number: number;
+  title: string;
+  subtitle: string;
+  content: string;
+  highlightQuote?: string;
+  scientificInsight?: string;
+}
+
+export interface EquipmentHotspot {
+  id: string;
+  name: string;
+  role: string;
+  currentCondition: string;
+  xPercent: number;
+  yPercent: number;
+  status: 'active_science' | 'silent_relic';
+}
+
+export interface StoryQuiz {
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+}
+
+export interface ArtifactStory {
+  origin: StoryChapter;
+  journey: StoryChapter;
+  mission: StoryChapter;
+  discoveries: StoryChapter;
+  finalChapter: StoryChapter;
+  legacy: StoryChapter;
+  equipmentHotspots?: EquipmentHotspot[];
+  quiz?: StoryQuiz;
+  hasActiveScienceValue?: boolean;
+  activeScienceDescription?: string;
+}
+
 export interface Artifact {
   id: string;
   archivalId: string; // e.g. "ARC-LUN-1969-A11"
@@ -65,10 +112,16 @@ export interface Artifact {
     accentColor: string;
     schematicType: 'rover' | 'lander' | 'helicopter' | 'vehicle' | 'package' | 'probe' | 'telescope';
   };
+  kidFriendly?: KidComparison;
+  story?: ArtifactStory;
 }
 
 export type ViewMode = 
   | 'overview' 
+  | 'story'
+  | 'lab'
+  | 'quest'
+  | 'timeline'
   | 'tracker'
   | 'moon' 
   | 'mars' 

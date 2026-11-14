@@ -2,14 +2,19 @@ import React from 'react';
 import type { Artifact } from '../types';
 import { ArtifactVisualizer } from './ArtifactVisualizer';
 import { museumAudio } from '../utils/audio';
-import { ArrowUpRight, Compass, Radio } from 'lucide-react';
+import { ArrowUpRight, Compass, Radio, Sparkles } from 'lucide-react';
 
 interface ArtifactCardProps {
   artifact: Artifact;
   onSelect: (artifact: Artifact) => void;
+  isJuniorMode?: boolean;
 }
 
-export const ArtifactCard: React.FC<ArtifactCardProps> = ({ artifact, onSelect }) => {
+export const ArtifactCard: React.FC<ArtifactCardProps> = ({ 
+  artifact, 
+  onSelect,
+  isJuniorMode = false 
+}) => {
   const handleClick = () => {
     museumAudio.playClick(900);
     onSelect(artifact);
@@ -61,10 +66,25 @@ export const ArtifactCard: React.FC<ArtifactCardProps> = ({ artifact, onSelect }
           </h3>
         </div>
 
-        {/* Brief Narrative */}
-        <p className="text-xs text-slate-400 font-sans font-light line-clamp-2 leading-relaxed mb-4">
-          {artifact.brief}
-        </p>
+        {/* Junior Mode Highlight or Brief Narrative */}
+        {isJuniorMode && artifact.kidFriendly ? (
+          <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-1.5 mb-4">
+            <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase text-amber-400">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Junior Explorer Insight</span>
+            </div>
+            <p className="text-xs text-amber-100 font-sans leading-relaxed line-clamp-2">
+              {artifact.kidFriendly.funFact}
+            </p>
+            <div className="text-[10px] text-amber-200/80 font-mono truncate">
+              📏 {artifact.kidFriendly.sizeComparison}
+            </div>
+          </div>
+        ) : (
+          <p className="text-xs text-slate-400 font-sans font-light line-clamp-2 leading-relaxed mb-4">
+            {artifact.brief}
+          </p>
+        )}
       </div>
 
       {/* Footer Telemetry */}
@@ -82,8 +102,8 @@ export const ArtifactCard: React.FC<ArtifactCardProps> = ({ artifact, onSelect }
 
         <div className="flex items-center justify-between pt-1 text-xs">
           <span className="text-[10px] text-slate-400">STATUS: {artifact.status.replace('_', ' ').toUpperCase()}</span>
-          <div className="flex items-center gap-1 text-slate-300 group-hover:text-white transition-colors font-heading text-[11px] tracking-wider">
-            <span>INSPECT</span>
+          <div className="flex items-center gap-1 text-amber-300 group-hover:text-amber-200 transition-colors font-heading text-[11px] tracking-wider font-medium">
+            <span>EXPLORE STORY</span>
             <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
         </div>
