@@ -58,6 +58,9 @@ export interface Artifact {
   equipmentAbandoned: string[];
   cosmicWeathering: string;
   nasaSourceUrl: string;
+  imageUrl?: string;
+  imageCredit?: string;
+  imageCaption?: string;
   imageTheme: {
     accentColor: string;
     schematicType: 'rover' | 'lander' | 'helicopter' | 'vehicle' | 'package' | 'probe' | 'telescope';

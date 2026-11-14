@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Artifact } from '../types';
-import { SchematicView } from './SchematicView';
+import { ArtifactVisualizer } from './ArtifactVisualizer';
 import { museumAudio } from '../utils/audio';
 import { ArrowUpRight, Calendar, Compass, Radio } from 'lucide-react';
 
@@ -62,9 +62,9 @@ export const ArtifactCard: React.FC<ArtifactCardProps> = ({ artifact, onSelect }
           </div>
         </div>
 
-        {/* Schematic Preview */}
+        {/* Visualizer Preview (Photo & Schematic Dual-Mode) */}
         <div className="mb-4">
-          <SchematicView artifact={artifact} compact={true} />
+          <ArtifactVisualizer artifact={artifact} compact={true} />
         </div>
 
         {/* Title & Mission */}

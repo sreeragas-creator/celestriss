@@ -48,6 +48,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Continuous exposure to unfiltered solar UV, day-to-night thermal swings from -130°C to +120°C, and slow micrometeorite sandblasting.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/apollo-11/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Apollo_11_Lunar_Module_-_AS11-40-5924.jpg/1024px-Apollo_11_Lunar_Module_-_AS11-40-5924.jpg',
+    imageCredit: 'NASA / Neil Armstrong (AS11-40-5924)',
+    imageCaption: 'The Apollo 11 Lunar Module Eagle descent stage resting at Tranquility Base with deployed scientific experiments.',
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'lander'
@@ -97,6 +100,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Heavy electrostatic lunar regolith dust adhesion; thermal degradation of silver-Teflon battery radiator mirrors.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/apollo-15/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Apollo_15_rover_with_James_Irwin.jpg/1024px-Apollo_15_rover_with_James_Irwin.jpg',
+    imageCredit: 'NASA / David Scott (AS15-88-11866)',
+    imageCaption: 'Astronaut Jim Irwin with Lunar Roving Vehicle 1 at Hadley-Apennine with Mount Hadley in the background.',
     imageTheme: {
       accentColor: '#E2E8F0',
       schematicType: 'vehicle'
@@ -147,6 +153,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Micrometeoroid pitting on camera housing; plutonium-238 heat output decayed past operational threshold; cosmic ray solar darkening.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/apollo-16/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Apollo_16_Grand_Prix.jpg/1024px-Apollo_16_Grand_Prix.jpg',
+    imageCredit: 'NASA / Charles Duke (AS16-107-17520)',
+    imageCaption: 'Commander John Young piloting LRV-002 during the famous "Grand Prix" high-speed engineering trial.',
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'vehicle'
@@ -197,6 +206,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Duct tape adhesive dried and embrittled by vacuum; lunar dust baked into radiator surfaces; chassis resting motionless for over 50 years.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/apollo-17/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apollo_17_Lunar_Roving_Vehicle.jpg/1024px-Apollo_17_Lunar_Roving_Vehicle.jpg',
+    imageCredit: 'NASA / Harrison Schmitt (AS17-140-21391)',
+    imageCaption: 'Gene Cernan and LRV-003 showing the taped map fender repair and the high-gain antenna.',
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'vehicle'
@@ -246,6 +258,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'SNAP-27 plutonium fuel decay heat reduced; electronic components in vacuum cold-welded; structural cables rigid and brittle.',
     nasaSourceUrl: 'https://science.nasa.gov/lunar-science/apollo-alsep/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Apollo_12_ALSEP_deployment.jpg/1024px-Apollo_12_ALSEP_deployment.jpg',
+    imageCredit: 'NASA / Alan Bean (AS12-46-6790)',
+    imageCaption: 'Apollo 12 astronaut Alan Bean carrying the ALSEP instruments and radioactive SNAP-27 fuel generator across Oceanus Procellarum.',
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'package'
@@ -294,6 +309,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Heavy solar ultraviolet discoloration of thermal paint; severe micrometeorite pitting across aluminum struts.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/surveyor-1/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Surveyor_1_footpad_in_lunar_soil.jpg/1024px-Surveyor_1_footpad_in_lunar_soil.jpg',
+    imageCredit: 'NASA / JPL (Surveyor 1)',
+    imageCaption: 'Surveyor 1 footpad compressed cleanly into the lunar soil, proving the ground was firm enough for human astronauts.',
     imageTheme: {
       accentColor: '#10B981',
       schematicType: 'lander'
@@ -342,6 +360,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'White polyurethane paint yellowed and turned tan under solar UV; optical surfaces sandblasted by Apollo 12 landing plume.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/surveyor-3/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Conrad_with_Surveyor_3.jpg/1024px-Conrad_with_Surveyor_3.jpg',
+    imageCredit: 'NASA / Alan Bean (AS12-48-7133)',
+    imageCaption: 'Commander Pete Conrad examining Surveyor 3 with the Apollo 12 Lunar Module Intrepid in the background.',
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'lander'
@@ -395,6 +416,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Airbag fabrics degraded by extreme solar ultraviolet rays; fine ferric red dust blanketed over rover solar panel.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/mars-pathfinder-sojourner/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sojourner_on_Mars_PIA01122.jpg/1024px-Sojourner_on_Mars_PIA01122.jpg',
+    imageCredit: 'NASA / JPL-Caltech (PIA01122)',
+    imageCaption: 'The Sojourner microrover pressed against rock Yogi in Ares Vallis, imaged by Pathfinder’s stereo camera.',
     imageTheme: {
       accentColor: '#10B981',
       schematicType: 'rover'
@@ -444,6 +468,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Hubs buried in soft sulfate sand; solar panels covered with thick dust layer; thermal contraction cracks in solder joints.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/mer-spirit/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Mars_Spirit_rover_tracks_PIA05208.jpg/1024px-Mars_Spirit_rover_tracks_PIA05208.jpg',
+    imageCredit: 'NASA / JPL-Caltech (PIA05208)',
+    imageCaption: 'Spirit looks back toward its landing site with twin rover tracks stretching into the Columbia Hills.',
     imageTheme: {
       accentColor: '#EF4444',
       schematicType: 'rover'
@@ -493,6 +520,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Coated in fine ferric iron oxide Martian red dust; extreme cold winter thermal stress cycles.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/mer-opportunity/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Opportunity_Endeavour_Rim_PIA18607.jpg/1024px-Opportunity_Endeavour_Rim_PIA18607.jpg',
+    imageCredit: 'NASA / JPL-Caltech / Cornell / ASU (PIA18607)',
+    imageCaption: 'Opportunity’s shadow stretches across the rim of Endeavour Crater during late afternoon on Mars.',
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'rover'
@@ -541,6 +571,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Four decades of Martian dust accumulation; RTG plutonium-238 heat output gradually decayed.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/viking-1/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Viking_1_surface.jpg/1024px-Viking_1_surface.jpg',
+    imageCredit: 'NASA / Langley Research Center (PIA00563)',
+    imageCaption: 'The first color photograph returned from the surface of Mars, showing Viking 1’s landing footpad and Martian boulders.',
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'lander'
@@ -589,6 +622,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Heavy dusting of fine rust particles; recurrent seasonal CO2 and water frost condensation cycles.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/viking-2/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Viking_2_lander_on_Mars.jpg/1024px-Viking_2_lander_on_Mars.jpg',
+    imageCredit: 'NASA / JPL (PIA00571)',
+    imageCaption: 'Viking 2’s view across the rock field of Utopia Planitia where frost formed during the Martian winter.',
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'lander'
@@ -637,6 +673,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Solar arrays crushed and bent by hundreds of kilograms of seasonal dry ice frost accumulation every Martian winter.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/phoenix/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Phoenix_water_ice_sublimating.jpg/1024px-Phoenix_water_ice_sublimating.jpg',
+    imageCredit: 'NASA / JPL-Caltech / University of Arizona (PIA10738)',
+    imageCaption: 'Chunks of sublimating pure water ice in trench Dodo-Goldilocks photographed by Phoenix over four Martian days.',
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'lander'
@@ -685,6 +724,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Solar arrays smothered under millimeters of dense reddish dust; internal electronics cold-soaked in sub-zero dormancy.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/insight/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/InSight_final_selfie_PIA24089.jpg/1024px-InSight_final_selfie_PIA24089.jpg',
+    imageCredit: 'NASA / JPL-Caltech (PIA24089)',
+    imageCaption: 'InSight’s poignant final self-portrait, showing its solar panels blanketed in reddish-brown Martian dust.',
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'lander'
@@ -734,6 +776,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Rotor tip fractured; electronics remain fully functional in stationary sentinel mode logging temperature data.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/ingenuity/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Ingenuity_Flight_1_PIA24449.jpg/1024px-Ingenuity_Flight_1_PIA24449.jpg',
+    imageCredit: 'NASA / JPL-Caltech / ASU / MSSS (PIA24449)',
+    imageCaption: 'Ingenuity airborne 3 meters above the Martian floor during historic Flight 1, photographed by Mastcam-Z.',
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'helicopter'
@@ -785,6 +830,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Micrometeoroid impacts across solar panels; slowly drifting through the Main Asteroid Belt under Ceres gravitational dominance.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/dawn/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Dawn_spacecraft_model.png/1024px-Dawn_spacecraft_model.png',
+    imageCredit: 'NASA / JPL-Caltech (PIA14683)',
+    imageCaption: 'The Dawn spacecraft with extended solar wings, which unlocked the mysteries of protoplanet Vesta and dwarf planet Ceres.',
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'probe'
@@ -832,6 +880,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Resting in microgravity on an airless tumbling space rock; solar panels irradiated by unattenuated solar particles.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/near-shoemaker/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/NEAR_final_image_Eros_PIA02474.jpg/1024px-NEAR_final_image_Eros_PIA02474.jpg',
+    imageCredit: 'NASA / JHUAPL (PIA02474)',
+    imageCaption: 'NEAR Shoemaker’s final image transmitted from only 120 meters above the rocky surface of Asteroid 433 Eros.',
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'probe'
@@ -878,6 +929,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Frozen at 3 Kelvin in interstellar space; unshielded from galactic cosmic ray spallation; plaques expected to survive for billions of years.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/pioneer-10/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Pioneer_10_in_cleanroom.jpg/1024px-Pioneer_10_in_cleanroom.jpg',
+    imageCredit: 'NASA Ames Research Center (72-HC-252)',
+    imageCaption: 'Pioneer 10 in cleanroom showing the 2.74-meter parabolic dish antenna and the Carl Sagan gold goodwill plaque.',
     imageTheme: {
       accentColor: '#F59E0B',
       schematicType: 'probe'
@@ -924,6 +978,9 @@ export const ARTIFACTS: Artifact[] = [
     ],
     cosmicWeathering: 'Drifting quietly in solar orbit; exposed to solar wind and solar flares; mirror and sensors frozen in permanent silence.',
     nasaSourceUrl: 'https://science.nasa.gov/mission/kepler/',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Kepler_spacecraft_in_cleanroom.jpg/1024px-Kepler_spacecraft_in_cleanroom.jpg',
+    imageCredit: 'NASA / Ball Aerospace (09-026)',
+    imageCaption: 'The Kepler Space Telescope in the cleanroom undergoing Schmidt optical barrel alignment before launch.',
     imageTheme: {
       accentColor: '#38BDF8',
       schematicType: 'telescope'

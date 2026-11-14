@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import type { Artifact } from '../types';
-import { SchematicView } from './SchematicView';
+import { ArtifactVisualizer } from './ArtifactVisualizer';
 import { museumAudio } from '../utils/audio';
 import { 
   X, 
@@ -109,9 +109,9 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
 
           {/* Schematic & Quick Telemetry Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Visual Schematic Box */}
+            {/* Visual Photographic & Schematic Box */}
             <div className="lg:col-span-7">
-              <SchematicView artifact={artifact} compact={false} />
+              <ArtifactVisualizer artifact={artifact} compact={false} />
             </div>
 
             {/* Telemetry Metrics Column */}
