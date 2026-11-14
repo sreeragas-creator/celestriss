@@ -9,7 +9,8 @@ import {
   VolumeX, 
   Sparkles,
   Radio,
-  Layers
+  Layers,
+  Orbit
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -28,19 +29,20 @@ export const Navbar: React.FC<NavbarProps> = ({
     setIsAudioActive(active);
   };
 
-  const navItems: { id: ViewMode; label: string; icon: React.ReactNode }[] = [
-    { id: 'archive', label: 'Artifact Archive', icon: <Layers className="w-4 h-4" /> },
+  const navItems: { id: ViewMode; label: string; icon: React.ReactNode; badge?: string }[] = [
+    { id: 'archive', label: 'Moon & Mars Archive', icon: <Layers className="w-4 h-4" /> },
     { id: 'map', label: 'Planetary Radar', icon: <MapPin className="w-4 h-4" /> },
     { id: 'timeline', label: 'Chronometer', icon: <Clock className="w-4 h-4" /> },
     { id: 'memorial', label: 'Silent Witnesses', icon: <Heart className="w-4 h-4" /> },
+    { id: 'deep_space', label: 'Deep Space Vault', icon: <Orbit className="w-4 h-4" />, badge: 'SECONDARY' },
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-[#05070e]/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-[#05070e]/95 backdrop-blur-md font-sans">
       {/* Top Telemetry Ticker */}
-      <div className="border-b border-slate-900 bg-slate-950/60 px-4 py-1 text-[10px] font-mono text-slate-400 flex items-center justify-between">
+      <div className="border-b border-slate-900 bg-slate-950/80 px-4 py-1 text-[10px] font-mono text-slate-400 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 text-amber-400">
+          <span className="flex items-center gap-1.5 text-amber-400 font-medium">
             <Radio className="w-3 h-3 animate-pulse" />
             LIVE LINK: DSN GOLDSTONE // CANBERRA // MADRID
           </span>
@@ -52,7 +54,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <div className="flex items-center gap-3 font-mono">
           <span>UTC: {new Date().toISOString().slice(0, 10)}</span>
-          <span className="text-emerald-400">STATUS: ARCHIVE UNSEALED</span>
+          <span className="text-emerald-400">TELEMETRY: VERIFIED</span>
         </div>
       </div>
 
@@ -72,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xl sm:text-2xl font-bold tracking-widest text-white font-mono">
+                <span className="text-xl sm:text-2xl font-bold tracking-widest text-white font-cinzel">
                   AFTERLIGHT
                 </span>
                 <span className="hidden sm:inline text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-amber-400 border border-slate-700">
@@ -86,7 +88,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 rounded-xl border border-slate-800 bg-slate-950/70 p-1">
+          <nav className="hidden lg:flex items-center gap-1 rounded-xl border border-slate-800 bg-slate-950/70 p-1">
             {navItems.map((item) => {
               const isActive = currentView === item.id;
               return (
@@ -106,6 +108,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                     {item.icon}
                   </span>
                   <span>{item.label}</span>
+                  {item.badge && (
+                    <span className="text-[8px] font-mono px-1 py-0.5 rounded bg-sky-950/80 text-sky-400 border border-sky-800/60">
+                      {item.badge}
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -144,7 +151,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Mobile View Selector */}
-        <div className="flex md:hidden items-center justify-between overflow-x-auto py-2 border-t border-slate-900 gap-1">
+        <div className="flex lg:hidden items-center justify-between overflow-x-auto py-2 border-t border-slate-900 gap-1">
           {navItems.map((item) => {
             const isActive = currentView === item.id;
             return (

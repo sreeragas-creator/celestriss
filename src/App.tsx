@@ -8,12 +8,14 @@ import { ArtifactModal } from './components/ArtifactModal';
 import { PlanetaryMap } from './components/PlanetaryMap';
 import { TimelineView } from './components/TimelineView';
 import { MemorialView } from './components/MemorialView';
+import { DeepSpaceView } from './components/DeepSpaceView';
 import { museumAudio } from './utils/audio';
 import { 
   Search, 
   Filter, 
   X,
-  ShieldAlert
+  ShieldAlert,
+  Orbit
 } from 'lucide-react';
 
 export function App() {
@@ -24,9 +26,13 @@ export function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeArtifact, setActiveArtifact] = useState<Artifact | null>(null);
 
-  // Filtered Artifacts for the Archive Hall
+  // Filtered Artifacts for the Primary Archive Hall (Moon & Mars primary)
+  const primaryArtifacts = useMemo(() => {
+    return ARTIFACTS.filter(a => a.collection === 'primary');
+  }, []);
+
   const filteredArtifacts = useMemo(() => {
-    return ARTIFACTS.filter((item) => {
+    return primaryArtifacts.filter((item) => {
       // Celestial body match
       if (selectedBody !== 'all' && item.celestialBody !== selectedBody) return false;
 
@@ -42,23 +48,25 @@ export function App() {
         const matchesSite = item.coordinates.landingSite.toLowerCase().includes(q);
         const matchesId = item.archivalId.toLowerCase().includes(q);
         const matchesNarrative = item.narrative.toLowerCase().includes(q);
-        return matchesName || matchesMission || matchesAgency || matchesSite || matchesId || matchesNarrative;
+        const matchesPurpose = item.purpose.toLowerCase().includes(q);
+        return matchesName || matchesMission || matchesAgency || matchesSite || matchesId || matchesNarrative || matchesPurpose;
       }
 
       return true;
     });
-  }, [selectedBody, selectedCategory, searchQuery]);
+  }, [primaryArtifacts, selectedBody, selectedCategory, searchQuery]);
 
   const moonCount = ARTIFACTS.filter(a => a.celestialBody === 'moon').length;
   const marsCount = ARTIFACTS.filter(a => a.celestialBody === 'mars').length;
+  const deepSpaceCount = ARTIFACTS.filter(a => a.celestialBody === 'deep_space').length;
 
-  const handleOpenMapWithBody = (body?: CelestialBody) => {
-    if (body) setMapBody(body);
+  const handleOpenMapWithBody = (body: CelestialBody) => {
+    setMapBody(body);
     setCurrentView('map');
   };
 
   return (
-    <div className="min-h-screen bg-[#04060b] text-slate-100 flex flex-col relative selection:bg-amber-500 selection:text-slate-950 stars-bg">
+    <div className="min-h-screen bg-[#04060b] text-slate-100 flex flex-col relative selection:bg-amber-500 selection:text-slate-950 stars-bg font-sans">
       {/* Top Navbar */}
       <Navbar
         currentView={currentView}
@@ -67,7 +75,7 @@ export function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        {/* Exhibition View: Archive Gallery */}
+        {/* Exhibition View: Archive Gallery (Moon & Mars Primary) */}
         {currentView === 'archive' && (
           <div className="space-y-8 animate-fade-in">
             {/* Museum Hero Section */}
@@ -75,11 +83,13 @@ export function App() {
               totalArtifacts={ARTIFACTS.length}
               moonCount={moonCount}
               marsCount={marsCount}
+              deepSpaceCount={deepSpaceCount}
               onExplore={() => {
                 const el = document.getElementById('archive-filters');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
               onOpenMap={() => handleOpenMapWithBody('moon')}
+              onOpenDeepSpace={() => setCurrentView('deep_space')}
             />
 
             {/* Filter and Search Bar */}
@@ -92,7 +102,7 @@ export function App() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search artifacts, missions, coordinates, or agencies..."
+                    placeholder="Search Apollo, Surveyor, Viking, InSight, rovers, coordinates..."
                     className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-800 bg-slate-950/80 text-xs sm:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/60 font-mono transition-colors"
                   />
                   {searchQuery && (
@@ -105,7 +115,7 @@ export function App() {
                   )}
                 </div>
 
-                {/* Celestial Body Segmented Toggle */}
+                {/* Primary Celestial Body Toggle: All Primary / Moon / Mars */}
                 <div className="flex items-center rounded-xl border border-slate-800 bg-slate-950 p-1 shrink-0">
                   <button
                     onClick={() => {
@@ -116,7 +126,7 @@ export function App() {
                       selectedBody === 'all' ? 'bg-slate-800 text-white shadow' : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    ALL WORLDS ({ARTIFACTS.length})
+                    MOON & MARS ({primaryArtifacts.length})
                   </button>
                   <button
                     onClick={() => {
@@ -149,7 +159,7 @@ export function App() {
                   <Filter className="w-3.5 h-3.5" />
                   CLASSIFICATION:
                 </span>
-                {(['all', 'rover', 'lander', 'aircraft', 'equipment'] as const).map((cat) => (
+                {(['all', 'rover', 'lander', 'equipment', 'scientific_package', 'aircraft'] as const).map((cat) => (
                   <button
                     key={cat}
                     onClick={() => {
@@ -162,12 +172,24 @@ export function App() {
                         : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
                     }`}
                   >
-                    {cat.toUpperCase()}
+                    {cat.replace('_', ' ').toUpperCase()}
                   </button>
                 ))}
 
-                <div className="ml-auto text-[11px] text-slate-400 font-mono">
-                  DISPLAYING {filteredArtifacts.length} OF {ARTIFACTS.length} RELICS
+                <div className="ml-auto flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      museumAudio.playClick(850);
+                      setCurrentView('deep_space');
+                    }}
+                    className="text-[11px] font-mono text-sky-400 hover:text-sky-300 flex items-center gap-1 transition-colors"
+                  >
+                    <Orbit className="w-3.5 h-3.5" />
+                    <span>VIEW DEEP SPACE VAULT ({deepSpaceCount}) →</span>
+                  </button>
+                  <span className="text-[11px] text-slate-500 font-mono">
+                    {filteredArtifacts.length} RELICS
+                  </span>
                 </div>
               </div>
             </div>
@@ -188,7 +210,7 @@ export function App() {
                 <ShieldAlert className="w-8 h-8 text-amber-500 mx-auto opacity-70" />
                 <h3 className="text-lg font-mono text-white">No Relics Located</h3>
                 <p className="text-xs text-slate-400 max-w-md mx-auto">
-                  No artifacts match "{searchQuery}" under the selected filters. Clear search or reset classification criteria.
+                  No artifacts match "{searchQuery}" under the selected filters.
                 </p>
                 <button
                   onClick={() => {
@@ -198,10 +220,21 @@ export function App() {
                   }}
                   className="px-4 py-2 rounded-lg bg-slate-800 text-xs font-mono text-slate-200 hover:bg-slate-700"
                 >
-                  RESET SEARCH
+                  RESET FILTERS
                 </button>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Exhibition View: Deep Space Vault (Secondary Collection) */}
+        {currentView === 'deep_space' && (
+          <div className="animate-fade-in">
+            <DeepSpaceView
+              artifacts={ARTIFACTS}
+              onSelectArtifact={(item) => setActiveArtifact(item)}
+              onOpenRadar={() => handleOpenMapWithBody('deep_space')}
+            />
           </div>
         )}
 
@@ -250,10 +283,10 @@ export function App() {
           <div className="space-y-1 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2 text-slate-300">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-              <span className="font-semibold text-white">AFTERLIGHT</span> — Interplanetary Heritage Museum
+              <span className="font-semibold text-white font-cinzel">AFTERLIGHT</span> — Interplanetary Heritage Museum
             </div>
             <p className="text-[11px] text-slate-400">
-              Curated for NASA Space Apps Challenge 2026. Data sourced from NASA JPL, Apollo Archives, and planetary missions.
+              Curated for NASA Space Apps Challenge 2026. Sourced from NASA JPL, NASA History Division, and Apollo Lunar Surface Journals.
             </p>
           </div>
 
@@ -296,6 +329,16 @@ export function App() {
               className="hover:text-slate-300"
             >
               MEMORIAL
+            </button>
+            <span>•</span>
+            <button
+              onClick={() => {
+                museumAudio.playClick(900);
+                setCurrentView('deep_space');
+              }}
+              className="text-sky-400 hover:text-sky-300"
+            >
+              DEEP SPACE VAULT
             </button>
           </div>
         </div>

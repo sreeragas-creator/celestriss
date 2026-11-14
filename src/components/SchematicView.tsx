@@ -24,7 +24,7 @@ export const SchematicView: React.FC<SchematicViewProps> = ({ artifact, compact 
         }}
       />
 
-      {/* Target Reticle Rings */}
+      {/* Target Reticle Rings with slow spin animation */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
         <div className="w-48 h-48 rounded-full border border-dashed border-slate-500 animate-[spin_60s_linear_infinite]" />
         <div className="absolute w-36 h-36 rounded-full border border-slate-600/50" />
@@ -32,16 +32,16 @@ export const SchematicView: React.FC<SchematicViewProps> = ({ artifact, compact 
 
       {/* Top Left HUD Coordinates */}
       <div className="absolute top-2.5 left-3 text-[10px] font-mono text-slate-400 tracking-wider flex items-center gap-1.5 z-10">
-        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: color }} />
+        <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: color }} />
         <span>{artifact.archivalId}</span>
       </div>
 
       {/* Top Right Status Badge */}
       <div className="absolute top-2.5 right-3 text-[10px] font-mono text-slate-400 uppercase tracking-widest z-10">
-        LOC: {artifact.celestialBody.toUpperCase()} // REG: {artifact.coordinates.region.slice(0, 14)}
+        {artifact.celestialBody.replace('_', ' ').toUpperCase()} // {artifact.category.replace('_', ' ').toUpperCase()}
       </div>
 
-      {/* SVG Vector Graphic Schematics */}
+      {/* SVG Vector Graphic Schematics with subtle animation elements */}
       <div className="relative z-10 flex items-center justify-center p-4">
         {type === 'rover' && (
           <svg className={compact ? 'w-36 h-28' : 'w-56 h-44'} viewBox="0 0 200 150" fill="none" stroke="currentColor">
@@ -49,13 +49,22 @@ export const SchematicView: React.FC<SchematicViewProps> = ({ artifact, compact 
             <path d="M 50 100 L 90 75 L 140 80 L 165 110" stroke={color} strokeWidth="3" strokeLinecap="round" />
             <path d="M 90 75 L 75 110" stroke={color} strokeWidth="2.5" />
             
-            {/* Wheels */}
-            <circle cx="50" cy="115" r="14" stroke="#e2e8f0" strokeWidth="2" fill="#0b111e" />
-            <circle cx="50" cy="115" r="5" fill={color} />
-            <circle cx="78" cy="118" r="14" stroke="#e2e8f0" strokeWidth="2" fill="#0b111e" />
-            <circle cx="78" cy="118" r="5" fill={color} />
-            <circle cx="165" cy="115" r="14" stroke="#e2e8f0" strokeWidth="2" fill="#0b111e" />
-            <circle cx="165" cy="115" r="5" fill={color} />
+            {/* Animated Wheels with slow rotation feel */}
+            <g className="animate-[spin_20s_linear_infinite]" style={{ transformOrigin: '50px 115px' }}>
+              <circle cx="50" cy="115" r="14" stroke="#e2e8f0" strokeWidth="2" fill="#0b111e" />
+              <circle cx="50" cy="115" r="5" fill={color} />
+              <line x1="50" y1="103" x2="50" y2="127" stroke={color} strokeWidth="1" />
+            </g>
+            <g className="animate-[spin_20s_linear_infinite]" style={{ transformOrigin: '78px 118px' }}>
+              <circle cx="78" cy="118" r="14" stroke="#e2e8f0" strokeWidth="2" fill="#0b111e" />
+              <circle cx="78" cy="118" r="5" fill={color} />
+              <line x1="78" y1="106" x2="78" y2="130" stroke={color} strokeWidth="1" />
+            </g>
+            <g className="animate-[spin_20s_linear_infinite]" style={{ transformOrigin: '165px 115px' }}>
+              <circle cx="165" cy="115" r="14" stroke="#e2e8f0" strokeWidth="2" fill="#0b111e" />
+              <circle cx="165" cy="115" r="5" fill={color} />
+              <line x1="165" y1="103" x2="165" y2="127" stroke={color} strokeWidth="1" />
+            </g>
 
             {/* Equipment Body */}
             <rect x="75" y="55" width="70" height="30" rx="3" stroke="#e2e8f0" strokeWidth="2" fill="#111827" fillOpacity="0.8" />
@@ -95,7 +104,7 @@ export const SchematicView: React.FC<SchematicViewProps> = ({ artifact, compact 
             {/* Radar / Antenna Mast */}
             <line x1="100" y1="55" x2="100" y2="25" stroke="#94a3b8" strokeWidth="2" />
             <path d="M 85 25 Q 100 10 115 25" stroke={color} strokeWidth="2" fill="none" />
-            <circle cx="100" cy="18" r="2" fill={color} />
+            <circle cx="100" cy="18" r="2.5" fill={color} className="animate-ping" />
 
             {/* Plaque / Modular Bay */}
             <rect x="85" y="75" width="30" height="20" rx="1" stroke={color} strokeWidth="1" strokeDasharray="2 2" />
@@ -155,21 +164,87 @@ export const SchematicView: React.FC<SchematicViewProps> = ({ artifact, compact 
             <rect x="150" y="45" width="14" height="10" rx="1" stroke="#e2e8f0" strokeWidth="1.5" fill="#1e293b" />
           </svg>
         )}
+
+        {type === 'package' && (
+          <svg className={compact ? 'w-36 h-28' : 'w-56 h-44'} viewBox="0 0 200 150" fill="none" stroke="currentColor">
+            {/* ALSEP Central Station Box */}
+            <rect x="70" y="70" width="60" height="40" rx="2" stroke="#e2e8f0" strokeWidth="2.5" fill="#111827" />
+            
+            {/* Helical S-band Antenna Mast */}
+            <line x1="100" y1="70" x2="100" y2="25" stroke={color} strokeWidth="2" />
+            <path d="M 94 30 Q 106 35 94 40 Q 106 45 94 50" stroke={color} strokeWidth="2" fill="none" />
+            <circle cx="100" cy="22" r="3" fill="#38bdf8" className="animate-pulse" />
+
+            {/* SNAP-27 RTG Radiator Cask */}
+            <rect x="25" y="80" width="28" height="32" rx="3" stroke="#f59e0b" strokeWidth="2" fill="#1e293b" />
+            <line x1="25" y1="88" x2="53" y2="88" stroke="#f59e0b" strokeWidth="1" />
+            <line x1="25" y1="96" x2="53" y2="96" stroke="#f59e0b" strokeWidth="1" />
+            <line x1="25" y1="104" x2="53" y2="104" stroke="#f59e0b" strokeWidth="1" />
+            <circle cx="39" cy="96" r="3" fill="#f59e0b" className="animate-ping" />
+
+            {/* Power cable connector connecting RTG to Central Station */}
+            <path d="M 53 100 Q 62 110 70 95" stroke="#94a3b8" strokeWidth="2" strokeDasharray="2 2" fill="none" />
+
+            {/* Passive Seismometer & Solar Wind sensor on ground */}
+            <rect x="145" y="95" width="22" height="16" rx="2" stroke="#38bdf8" strokeWidth="1.5" fill="#0f172a" />
+            <path d="M 130 95 Q 138 108 145 104" stroke="#94a3b8" strokeWidth="2" strokeDasharray="2 2" fill="none" />
+          </svg>
+        )}
+
+        {type === 'probe' && (
+          <svg className={compact ? 'w-36 h-28' : 'w-56 h-44'} viewBox="0 0 200 150" fill="none" stroke="currentColor">
+            {/* High Gain Parabolic Dish */}
+            <ellipse cx="100" cy="70" rx="34" ry="24" stroke="#e2e8f0" strokeWidth="2.5" fill="#111827" />
+            <circle cx="100" cy="70" r="6" fill={color} />
+            <line x1="100" y1="70" x2="100" y2="40" stroke={color} strokeWidth="2" />
+            <circle cx="100" cy="38" r="2.5" fill="#38bdf8" className="animate-ping" />
+
+            {/* Radio transmission ripples */}
+            <path d="M 85 30 Q 100 20 115 30" stroke={color} strokeWidth="1.5" strokeDasharray="3 2" fill="none" className="animate-pulse" />
+            <path d="M 75 22 Q 100 10 125 22" stroke={color} strokeWidth="1" strokeDasharray="3 3" fill="none" />
+
+            {/* Extended Solar Panels / Boom Arms */}
+            <line x1="66" y1="70" x2="15" y2="70" stroke={color} strokeWidth="3" />
+            <rect x="15" y="58" width="45" height="24" rx="2" stroke="#e2e8f0" strokeWidth="1.5" fill="#1e293b" />
+
+            <line x1="134" y1="70" x2="185" y2="70" stroke={color} strokeWidth="3" />
+            <rect x="140" y="58" width="45" height="24" rx="2" stroke="#e2e8f0" strokeWidth="1.5" fill="#1e293b" />
+
+            {/* RTG / Sensor boom */}
+            <line x1="100" y1="94" x2="100" y2="135" stroke="#94a3b8" strokeWidth="2" />
+            <rect x="90" y="130" width="20" height="10" rx="1" stroke={color} strokeWidth="1.5" fill="#0f172a" />
+          </svg>
+        )}
+
+        {type === 'telescope' && (
+          <svg className={compact ? 'w-36 h-28' : 'w-56 h-44'} viewBox="0 0 200 150" fill="none" stroke="currentColor">
+            {/* Schmidt Telescope Cylinder Tube */}
+            <polygon points="50,45 150,30 155,95 55,110" stroke="#e2e8f0" strokeWidth="2.5" fill="#111827" />
+            
+            {/* Aperture Opening Oval */}
+            <ellipse cx="52" cy="77" rx="12" ry="32" stroke={color} strokeWidth="2" fill="#0f172a" />
+            <circle cx="52" cy="77" r="4" fill="#38bdf8" className="animate-pulse" />
+
+            {/* Curved Solar Shield on top */}
+            <path d="M 52 45 Q 100 32 150 30" stroke={color} strokeWidth="3" fill="none" />
+            
+            {/* Reaction Wheel / Avionics Bus on rear */}
+            <rect x="152" y="42" width="22" height="48" rx="2" stroke="#94a3b8" strokeWidth="2" fill="#1e293b" />
+            <circle cx="163" cy="66" r="5" stroke={color} strokeWidth="1.5" fill="#0b111e" />
+
+            {/* Star Transit Beam line */}
+            <line x1="40" y1="77" x2="10" y2="77" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="3 2" className="animate-pulse" />
+          </svg>
+        )}
       </div>
 
       {/* Subtle Scanlines effect */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-25"
-        style={{
-          background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%)',
-          backgroundSize: '100% 4px'
-        }}
-      />
+      <div className="absolute inset-0 pointer-events-none scanlines-overlay opacity-30" />
 
       {/* Bottom Telemetry Bar */}
-      <div className="absolute bottom-2 left-3 right-3 flex justify-between items-center text-[9px] font-mono text-slate-500 border-t border-slate-800/80 pt-1.5 z-10">
+      <div className="absolute bottom-2 left-3 right-3 flex justify-between items-center text-[9px] font-mono text-slate-400 border-t border-slate-800/80 pt-1.5 z-10">
         <span>STATUS: {artifact.status.replace('_', ' ').toUpperCase()}</span>
-        <span>SYS: TELEMETRY RETRIEVED</span>
+        <span>SYS: RECORD VERIFIED</span>
       </div>
     </div>
   );

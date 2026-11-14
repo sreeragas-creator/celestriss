@@ -8,7 +8,10 @@ import {
   Radio, 
   Cpu, 
   Wind, 
-  ShieldCheck
+  ShieldCheck,
+  ExternalLink,
+  Target,
+  Sparkles
 } from 'lucide-react';
 
 interface ArtifactModalProps {
@@ -47,42 +50,58 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
           <div className="flex items-center gap-3">
             <span className="flex h-2.5 w-2.5 rounded-full bg-amber-500 animate-pulse" />
             <span className="font-mono text-xs uppercase tracking-widest text-amber-400">
-              NASA ARCHIVAL EXHIBIT // {artifact.archivalId}
+              NASA ARCHIVAL DOSSIER // {artifact.archivalId}
             </span>
           </div>
 
-          <button
-            onClick={handleClose}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-3">
+            {/* NASA External Source Link */}
+            <a
+              href={artifact.nasaSourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-md border border-slate-700 bg-slate-900/90 text-[11px] font-mono text-slate-300 hover:text-amber-300 hover:border-amber-500/50 transition-colors"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
+              <span>NASA ARCHIVE SOURCE</span>
+            </a>
+
+            <button
+              onClick={handleClose}
+              className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
-        <div className="p-6 sm:p-8 space-y-8">
+        <div className="p-6 sm:p-8 space-y-8 font-sans">
           {/* Main Title Section */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-6">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-widest mb-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-widest mb-1.5">
                 <span>{artifact.agency}</span>
                 <span>•</span>
                 <span>{artifact.country}</span>
                 <span>•</span>
-                <span className="text-amber-400">{artifact.celestialBody.toUpperCase()}</span>
+                <span className="text-amber-400 font-semibold">{artifact.celestialBody.replace('_', ' ').toUpperCase()}</span>
+                <span>•</span>
+                <span>YEAR {artifact.launchYear}</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+              <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white font-cinzel">
                 {artifact.name}
               </h1>
-              <p className="text-sm font-mono text-slate-400 mt-1">
-                Landing Zone: <span className="text-slate-200">{artifact.coordinates.landingSite}</span> ({artifact.coordinates.region})
+              <p className="text-sm font-mono text-slate-300 mt-2 flex items-center gap-2">
+                <span className="text-amber-500 font-semibold">DESTINATION:</span> 
+                <span>{artifact.coordinates.landingSite}</span>
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-3 py-1 rounded-md border border-slate-700 bg-slate-900 text-xs font-mono text-slate-300">
-                CLASS: {artifact.category.toUpperCase()}
+                CLASS: {artifact.category.replace('_', ' ').toUpperCase()}
               </span>
-              <span className="px-3 py-1 rounded-md border border-amber-500/30 bg-amber-500/10 text-xs font-mono text-amber-400">
+              <span className="px-3 py-1 rounded-md border border-amber-500/40 bg-amber-500/10 text-xs font-mono text-amber-400">
                 STATUS: {artifact.status.replace('_', ' ').toUpperCase()}
               </span>
             </div>
@@ -97,45 +116,81 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
 
             {/* Telemetry Metrics Column */}
             <div className="lg:col-span-5 flex flex-col justify-between gap-3 p-5 rounded-xl border border-slate-800 bg-slate-950/70">
-              <h4 className="text-xs font-mono uppercase tracking-widest text-slate-400 flex items-center gap-2">
+              <h4 className="text-xs font-mono uppercase tracking-widest text-slate-300 flex items-center gap-2">
                 <Activity className="w-4 h-4 text-amber-400" />
-                Orbital Telemetry Data
+                Orbital Telemetry & Regime
               </h4>
 
-              <div className="space-y-3 font-mono text-xs">
+              <div className="space-y-2.5 font-mono text-xs">
                 <div className="flex justify-between border-b border-slate-900 pb-2">
-                  <span className="text-slate-500">SURFACE COORD:</span>
-                  <span className="text-slate-200">{artifact.coordinatesDisplay}</span>
+                  <span className="text-slate-400">LOCATION:</span>
+                  <span className="text-slate-200 text-right">{artifact.coordinatesDisplay}</span>
                 </div>
                 {artifact.coordinates.elevationMeters !== undefined && (
                   <div className="flex justify-between border-b border-slate-900 pb-2">
-                    <span className="text-slate-500">ELEVATION:</span>
+                    <span className="text-slate-400">ELEVATION:</span>
                     <span className="text-slate-200">{artifact.coordinates.elevationMeters} m</span>
                   </div>
                 )}
+                {artifact.coordinates.orbitalRegime && (
+                  <div className="flex justify-between border-b border-slate-900 pb-2">
+                    <span className="text-slate-400">ORBITAL REGIME:</span>
+                    <span className="text-slate-200 text-right">{artifact.coordinates.orbitalRegime}</span>
+                  </div>
+                )}
                 <div className="flex justify-between border-b border-slate-900 pb-2">
-                  <span className="text-slate-500">TOUCHDOWN:</span>
-                  <span className="text-slate-200">{artifact.landingDate}</span>
+                  <span className="text-slate-400">LAUNCH DATE:</span>
+                  <span className="text-slate-200">{artifact.launchDate}</span>
                 </div>
+                {artifact.landingDate && (
+                  <div className="flex justify-between border-b border-slate-900 pb-2">
+                    <span className="text-slate-400">TOUCHDOWN:</span>
+                    <span className="text-slate-200">{artifact.landingDate}</span>
+                  </div>
+                )}
                 <div className="flex justify-between border-b border-slate-900 pb-2">
-                  <span className="text-slate-500">FINAL CONTACT:</span>
+                  <span className="text-slate-400">FINAL SIGNAL:</span>
                   <span className="text-slate-200">{artifact.finalSignalDate}</span>
                 </div>
                 <div className="flex justify-between border-b border-slate-900 pb-2">
-                  <span className="text-slate-500">MISSION LIFESPAN:</span>
+                  <span className="text-slate-400">OPERATIONAL SPAN:</span>
                   <span className="text-amber-400 font-semibold">{artifact.operationalDays} days</span>
                 </div>
                 {artifact.distanceTraveledKm !== undefined && (
                   <div className="flex justify-between pb-1">
-                    <span className="text-slate-500">DISTANCE TRAVERSED:</span>
+                    <span className="text-slate-400">DISTANCE TRAVERSED:</span>
                     <span className="text-slate-200">{artifact.distanceTraveledKm} km</span>
                   </div>
                 )}
               </div>
 
-              <div className="pt-2 border-t border-slate-900 text-[11px] font-mono text-slate-400 leading-relaxed">
+              <div className="pt-2 border-t border-slate-900 text-[11px] font-mono text-slate-300 leading-relaxed">
+                <span className="text-amber-400 font-semibold">CURRENT STATE: </span>
                 {artifact.statusDescription}
               </div>
+            </div>
+          </div>
+
+          {/* Mission Purpose & Historical Significance */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="p-5 rounded-xl border border-slate-800 bg-slate-950/60 space-y-2">
+              <h4 className="text-xs font-mono uppercase tracking-widest text-amber-400 flex items-center gap-2">
+                <Target className="w-4 h-4" />
+                Primary Mission Purpose
+              </h4>
+              <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
+                {artifact.purpose}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl border border-slate-800 bg-slate-950/60 space-y-2">
+              <h4 className="text-xs font-mono uppercase tracking-widest text-sky-400 flex items-center gap-2">
+                <Sparkles className="w-4 h-4" />
+                Historical Significance
+              </h4>
+              <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
+                {artifact.historicalSignificance}
+              </p>
             </div>
           </div>
 
@@ -146,17 +201,17 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
                 <Radio className="w-4 h-4 animate-pulse" />
                 <span>The Final Transmission / Archival Ghost Signal</span>
               </div>
-              <blockquote className="text-sm sm:text-base italic font-serif text-amber-100/90 leading-relaxed pl-3 border-l-2 border-amber-500/60">
+              <blockquote className="text-sm sm:text-base italic font-serif text-amber-100/95 leading-relaxed pl-3 border-l-2 border-amber-500/60">
                 {artifact.finalLogTranscript}
               </blockquote>
             </div>
           )}
 
-          {/* Historical Narrative */}
+          {/* Detailed Historical Narrative */}
           <div className="space-y-3">
             <h3 className="text-sm font-mono uppercase tracking-widest text-slate-300 flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-amber-400" />
-              Historical Mission Narrative
+              Detailed Archival Narrative
             </h3>
             <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
               {artifact.narrative}
@@ -169,7 +224,7 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
             <div className="p-5 rounded-xl border border-slate-800 bg-slate-950/50 space-y-3">
               <h4 className="text-xs font-mono uppercase tracking-widest text-slate-300 flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-sky-400" />
-                Physical Hardware Left on Surface
+                Physical Hardware Abandoned in Place
               </h4>
               <ul className="space-y-2 text-xs text-slate-300 font-mono">
                 {artifact.equipmentAbandoned.map((item, idx) => (
@@ -181,7 +236,7 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
               </ul>
             </div>
 
-            {/* Cosmic Weathering */}
+            {/* Cosmic Weathering & Scientific Legacy */}
             <div className="p-5 rounded-xl border border-slate-800 bg-slate-950/50 space-y-3">
               <h4 className="text-xs font-mono uppercase tracking-widest text-slate-300 flex items-center gap-2">
                 <Wind className="w-4 h-4 text-emerald-400" />
@@ -207,13 +262,22 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
         </div>
 
         {/* Footer */}
-        <div className="mt-auto border-t border-slate-800 bg-[#060a14] px-6 py-4 flex items-center justify-between text-xs font-mono text-slate-500">
-          <span>AFTERLIGHT DIGITAL MUSEUM // NASA SPACE APPS 2026</span>
+        <div className="mt-auto border-t border-slate-800 bg-[#060a14] px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-slate-400">
+          <a
+            href={artifact.nasaSourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-amber-400 hover:text-amber-300 transition-colors"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            <span>VERIFIED NASA SOURCE LINK</span>
+          </a>
+
           <button
             onClick={handleClose}
-            className="px-4 py-1.5 rounded-lg border border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800 transition-colors"
+            className="px-5 py-2 rounded-lg border border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800 transition-colors font-medium"
           >
-            RETURN TO ARCHIVE
+            RETURN TO EXHIBITION
           </button>
         </div>
       </div>
