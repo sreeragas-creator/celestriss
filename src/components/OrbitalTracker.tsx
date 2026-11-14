@@ -3,6 +3,8 @@ import type { Artifact, CelestialBody } from '../types';
 import { museumAudio } from '../utils/audio';
 import { 
   ChevronDown, 
+  ChevronLeft,
+  ChevronRight,
   Radio, 
   Crosshair
 } from 'lucide-react';
@@ -28,6 +30,8 @@ export const OrbitalTracker: React.FC<OrbitalTrackerProps> = ({
   const [hoveredArtifact, setHoveredArtifact] = useState<Artifact | null>(null);
   const [simSpeed, setSimSpeed] = useState<string>('0.25X');
   const [currentTime, setCurrentTime] = useState<string>('');
+  const [isLeftCollapsed, setIsLeftCollapsed] = useState<boolean>(false);
+  const [isRightCollapsed, setIsRightCollapsed] = useState<boolean>(false);
 
   // Clock simulation
   useEffect(() => {
@@ -83,31 +87,68 @@ export const OrbitalTracker: React.FC<OrbitalTrackerProps> = ({
     <div className="relative w-full h-[840px] rounded-2xl border border-white/10 bg-[#020408] overflow-hidden select-none font-sans text-slate-200">
       
       {/* =========================================================================
-          LEFT CONTROLLER PANEL (NOVA / ORBIT CODEX SPEC)
+          LEFT CONTROLLER PANEL (NOVA / ORBIT CODEX SPEC - COLLAPSIBLE)
          ========================================================================= */}
-      <div className="absolute top-4 left-4 bottom-4 w-72 sm:w-80 rounded-xl bg-[#050811]/90 backdrop-blur-xl border border-white/10 p-4 flex flex-col justify-between z-30 shadow-2xl overflow-y-auto">
+      {/* Collapsed Expand Tab */}
+      {isLeftCollapsed && (
+        <button
+          onClick={() => {
+            museumAudio.playClick(800);
+            setIsLeftCollapsed(false);
+          }}
+          className="absolute top-4 left-4 z-40 px-3.5 py-2 rounded-xl bg-[#050811]/95 backdrop-blur-xl border border-white/10 text-xs font-mono text-cyan-300 hover:text-white hover:border-cyan-500/40 transition-all flex items-center gap-2 shadow-2xl animate-fade-in"
+          title="Expand Target System Controller"
+        >
+          <ChevronRight className="w-4 h-4 text-cyan-400" />
+          <span className="tracking-wider">TARGET SYSTEM</span>
+        </button>
+      )}
+
+      {/* Main Left Drawer */}
+      <div 
+        className={`absolute top-4 left-4 bottom-4 w-72 sm:w-80 rounded-xl bg-[#050811]/90 backdrop-blur-xl border border-white/10 p-4 flex flex-col justify-between z-30 shadow-2xl overflow-y-auto transition-transform duration-300 ease-in-out ${
+          isLeftCollapsed ? '-translate-x-[120%] pointer-events-none' : 'translate-x-0'
+        }`}
+      >
         <div className="space-y-4">
           
-          {/* TARGET SYSTEM SELECTOR */}
+          {/* TARGET SYSTEM SELECTOR WITH COLLAPSE TOGGLE */}
           <div className="flex items-center justify-between pb-3 border-b border-white/10">
-            <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400">
-              TARGET SYSTEM
-            </span>
-            <div className="relative">
-              <select
-                value={targetSystem}
-                onChange={(e) => {
-                  museumAudio.playClick(800);
-                  setTargetSystem(e.target.value as CelestialBody);
-                  setActiveArtifactId(null);
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400">
+                TARGET SYSTEM
+              </span>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <select
+                  value={targetSystem}
+                  onChange={(e) => {
+                    museumAudio.playClick(800);
+                    setTargetSystem(e.target.value as CelestialBody);
+                    setActiveArtifactId(null);
+                  }}
+                  className="bg-[#0b101d] text-white text-xs font-mono px-3 py-1.5 rounded-lg border border-white/15 focus:outline-none appearance-none pr-8 cursor-pointer hover:border-white/30"
+                >
+                  <option value="moon">Moon (Luna)</option>
+                  <option value="mars">Mars (Ares)</option>
+                  <option value="deep_space">Deep Space</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+
+              {/* Collapse Left Panel Button */}
+              <button
+                onClick={() => {
+                  museumAudio.playClick(600);
+                  setIsLeftCollapsed(true);
                 }}
-                className="bg-[#0b101d] text-white text-xs font-mono px-3 py-1.5 rounded-lg border border-white/15 focus:outline-none appearance-none pr-8 cursor-pointer hover:border-white/30"
+                className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                title="Collapse Target Panel"
               >
-                <option value="moon">Moon (Luna)</option>
-                <option value="mars">Mars (Ares)</option>
-                <option value="deep_space">Deep Space</option>
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <ChevronLeft className="w-4 h-4" />
+              </button>
             </div>
           </div>
 
@@ -461,16 +502,49 @@ export const OrbitalTracker: React.FC<OrbitalTrackerProps> = ({
       </div>
 
       {/* =========================================================================
-          RIGHT ENVIRONMENT & TELEMETRY HUD PANEL (ORBIT CODEX SPEC)
+          RIGHT ENVIRONMENT & TELEMETRY HUD PANEL (COLLAPSIBLE)
          ========================================================================= */}
-      <div className="absolute top-4 right-4 w-64 sm:w-72 rounded-xl bg-[#050811]/90 backdrop-blur-xl border border-white/10 p-4 space-y-4 z-30 shadow-2xl font-mono text-xs">
+      {/* Collapsed Expand Tab on Right Edge */}
+      {isRightCollapsed && (
+        <button
+          onClick={() => {
+            museumAudio.playClick(800);
+            setIsRightCollapsed(false);
+          }}
+          className="absolute top-4 right-4 z-40 px-3.5 py-2 rounded-xl bg-[#050811]/95 backdrop-blur-xl border border-white/10 text-xs font-mono text-cyan-300 hover:text-white hover:border-cyan-500/40 transition-all flex items-center gap-2 shadow-2xl animate-fade-in"
+          title="Expand Environment Telemetry HUD"
+        >
+          <span className="tracking-wider">{targetSystem.toUpperCase()} ENVIRONMENT</span>
+          <ChevronLeft className="w-4 h-4 text-cyan-400" />
+        </button>
+      )}
+
+      {/* Main Right HUD Card */}
+      <div 
+        className={`absolute top-4 right-4 w-64 sm:w-72 rounded-xl bg-[#050811]/90 backdrop-blur-xl border border-white/10 p-4 space-y-4 z-30 shadow-2xl font-mono text-xs transition-transform duration-300 ease-in-out ${
+          isRightCollapsed ? 'translate-x-[120%] pointer-events-none' : 'translate-x-0'
+        }`}
+      >
         
-        {/* Environment Title */}
+        {/* Environment Title with Collapse Button */}
         <div className="border-b border-white/10 pb-2 flex items-center justify-between">
-          <span className="text-[11px] text-slate-400 uppercase tracking-widest font-heading">
-            {targetSystem.toUpperCase()} ENVIRONMENT
-          </span>
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="text-[11px] text-slate-300 uppercase tracking-widest font-heading">
+              {targetSystem.toUpperCase()} ENVIRONMENT
+            </span>
+          </div>
+
+          <button
+            onClick={() => {
+              museumAudio.playClick(600);
+              setIsRightCollapsed(true);
+            }}
+            className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            title="Collapse Environment HUD"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
 
         {/* Physical Metrics: Gravity, Orbit, Distance */}
