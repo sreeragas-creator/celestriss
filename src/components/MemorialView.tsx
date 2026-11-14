@@ -9,7 +9,9 @@ interface MemorialViewProps {
 }
 
 export const MemorialView: React.FC<MemorialViewProps> = ({ artifacts, onSelectArtifact }) => {
-  // Store tributes in localStorage
+  const [selectedBodyFilter, setSelectedBodyFilter] = useState<'all' | 'moon' | 'mars' | 'deep_space'>('all');
+  const [salutingId, setSalutingId] = useState<string | null>(null);
+
   const [tributes, setTributes] = useState<Record<string, number>>(() => {
     try {
       const saved = localStorage.getItem('afterlight_tributes');
@@ -18,8 +20,6 @@ export const MemorialView: React.FC<MemorialViewProps> = ({ artifacts, onSelectA
       return {};
     }
   });
-
-  const [salutingId, setSalutingId] = useState<string | null>(null);
 
   const handleSalute = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -38,105 +38,162 @@ export const MemorialView: React.FC<MemorialViewProps> = ({ artifacts, onSelectA
     });
   };
 
-  return (
-    <div className="space-y-10 max-w-5xl mx-auto font-sans">
-      {/* Prologue Memorial Banner */}
-      <div className="relative rounded-2xl border border-slate-800 bg-gradient-to-b from-[#090d1a] to-[#05070e] p-6 sm:p-10 text-center overflow-hidden">
-        {/* Subtle background glow */}
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/10 blur-[100px] pointer-events-none rounded-full" />
+  const filteredArtifacts = artifacts.filter(a => {
+    if (selectedBodyFilter !== 'all' && a.celestialBody !== selectedBodyFilter) return false;
+    return true;
+  });
 
-        <div className="relative z-10 space-y-4 max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-xs font-mono text-amber-400">
-            <Radio className="w-3.5 h-3.5 animate-pulse" />
-            <span>EXHIBIT CHAMBER IV // SILENT WITNESSES</span>
+  const totalDays = artifacts.reduce((acc, curr) => acc + curr.operationalDays, 0);
+
+  return (
+    <div className="space-y-8 font-sans">
+      
+      {/* TOP COMMAND CENTER COMMENDATION HUD BANNER */}
+      <div className="relative rounded-2xl border border-white/10 bg-[#050811]/90 backdrop-blur-xl p-6 sm:p-8 flex flex-col md:flex-row md:items-end justify-between gap-6 shadow-2xl overflow-hidden">
+        
+        {/* Subtle radial glow */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="relative z-10 space-y-3 max-w-2xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] text-[10px] font-mono text-amber-300">
+            <Radio className="w-3 h-3 animate-pulse" />
+            <span>MEMORIAL ARCHIVE // SECTOR: SOL-DEEP // SILENT SENTINELS</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-light tracking-wide text-white font-heading">
+          <h2 className="text-2xl sm:text-4xl font-heading font-light tracking-wide text-white">
             Abandoned, but Never Forgotten.
           </h2>
 
-          <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
             Across millions of kilometers of vacuum, frozen regolith, and cosmic radiation, humanity's solitary robotic pioneers and Apollo vehicles rest in perpetual silence. They braved catastrophic dust storms, polar winters, and interstellar cold so that our species could gaze beyond the horizon.
           </p>
+        </div>
 
-          <div className="pt-2 text-xs font-mono text-slate-500">
-            TOUCH OR TRANSMIT A SILENT MEMORIAL SALUTE TO ANY RELIC
+        {/* CUMULATIVE TELEMETRY METRIC STRIP */}
+        <div className="grid grid-cols-2 gap-3 shrink-0 font-mono text-xs">
+          <div className="p-3 rounded-xl bg-[#090e1c] border border-white/10">
+            <div className="text-[10px] text-slate-400 uppercase tracking-widest">SENTINELS</div>
+            <div className="text-xl font-bold text-white mt-0.5">{artifacts.length} Relics</div>
+          </div>
+          <div className="p-3 rounded-xl bg-[#090e1c] border border-white/10">
+            <div className="text-[10px] text-slate-400 uppercase tracking-widest">DAYS ACTIVE</div>
+            <div className="text-xl font-bold text-cyan-300 mt-0.5">{totalDays.toLocaleString()} d</div>
           </div>
         </div>
       </div>
 
-      {/* Grid of Memorial Epitaph Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {artifacts.map((artifact) => {
-          const saluteCount = (tributes[artifact.id] || 0) + 142;
-          const isSaluting = salutingId === artifact.id;
+      {/* TWO-COLUMN COMMAND CENTER LAYOUT */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        {/* LEFT FILTER DRAWER (3 cols) */}
+        <div className="lg:col-span-3 rounded-2xl bg-[#050811]/90 backdrop-blur-xl border border-white/10 p-4 space-y-4">
+          <div className="text-[11px] font-mono text-slate-400 uppercase tracking-widest border-b border-white/10 pb-2">
+            SENTINEL SECTORS
+          </div>
 
-          return (
-            <div
-              key={artifact.id}
-              onClick={() => {
-                museumAudio.playClick(900);
-                onSelectArtifact(artifact);
-              }}
-              className="group relative cursor-pointer rounded-xl border border-slate-800/80 bg-[#070b14]/90 p-6 transition-all duration-300 hover:border-amber-500/50 hover:bg-[#0c1220] flex flex-col justify-between hover:-translate-y-1"
-            >
-              <div>
-                {/* Header */}
-                <div className="flex items-center justify-between gap-2 border-b border-slate-800/80 pb-3 mb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: artifact.imageTheme.accentColor }} />
-                    <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">
-                      {artifact.celestialBody.replace('_', ' ').toUpperCase()} // {artifact.mission}
-                    </span>
+          <div className="space-y-1 font-mono text-xs">
+            {[
+              { id: 'all', label: 'All Sentinels', count: artifacts.length },
+              { id: 'moon', label: 'Moon (Luna)', count: artifacts.filter(a => a.celestialBody === 'moon').length },
+              { id: 'mars', label: 'Mars (Ares)', count: artifacts.filter(a => a.celestialBody === 'mars').length },
+              { id: 'deep_space', label: 'Deep Space', count: artifacts.filter(a => a.celestialBody === 'deep_space').length },
+            ].map(sec => (
+              <button
+                key={sec.id}
+                onClick={() => {
+                  museumAudio.playClick(750);
+                  setSelectedBodyFilter(sec.id as any);
+                }}
+                className={`w-full py-2 px-3 rounded-lg text-left flex items-center justify-between transition-colors ${
+                  selectedBodyFilter === sec.id
+                    ? 'bg-cyan-950/60 border border-cyan-500/50 text-cyan-300 font-bold'
+                    : 'bg-[#080d1a] border border-white/5 text-slate-400 hover:text-white'
+                }`}
+              >
+                <span>{sec.label}</span>
+                <span className="text-[10px] text-slate-400">{sec.count}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="p-3 rounded-xl bg-[#080d1a] border border-white/5 text-[11px] font-mono text-slate-400 leading-relaxed">
+            Transmit a silent starlight commendation to any machine to record a permanent tribute starlight ping.
+          </div>
+        </div>
+
+        {/* RIGHT COMMEMORATIVE MODULES GRID (9 cols) */}
+        <div className="lg:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-5">
+          {filteredArtifacts.map((artifact) => {
+            const saluteCount = (tributes[artifact.id] || 0) + 142;
+            const isSaluting = salutingId === artifact.id;
+
+            return (
+              <div
+                key={artifact.id}
+                onClick={() => {
+                  museumAudio.playClick(900);
+                  onSelectArtifact(artifact);
+                }}
+                className="group relative cursor-pointer rounded-2xl bg-[#050811]/90 backdrop-blur-xl border border-white/10 p-5 sm:p-6 transition-all duration-300 hover:border-cyan-500/40 hover:bg-[#080d1d] flex flex-col justify-between"
+              >
+                <div>
+                  {/* Card Header */}
+                  <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-3 mb-3 text-xs font-mono text-slate-400">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: artifact.imageTheme.accentColor }} />
+                      <span className="uppercase text-white/80">{artifact.celestialBody.replace('_', ' ')}</span>
+                      <span>•</span>
+                      <span>{artifact.archivalId}</span>
+                    </div>
+                    <span className="text-slate-300 font-semibold">{artifact.launchYear}</span>
                   </div>
-                  <span className="text-xs font-mono text-slate-400 font-semibold">
-                    {artifact.launchYear}
-                  </span>
+
+                  {/* Title */}
+                  <h3 className="text-base sm:text-lg font-heading font-light tracking-wide text-white group-hover:text-cyan-200 transition-colors mb-2">
+                    {artifact.name}
+                  </h3>
+
+                  {/* Ghost Signal / Final Log Terminal Quote */}
+                  {artifact.finalLogTranscript ? (
+                    <div className="p-3 rounded-xl bg-[#080d1a] border border-white/5 mb-3 text-xs font-mono italic text-amber-200/90 leading-relaxed border-l-2 border-l-amber-500">
+                      {artifact.finalLogTranscript}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-slate-400 font-light leading-relaxed mb-3">
+                      {artifact.brief}
+                    </p>
+                  )}
+
+                  {/* Telemetry metrics */}
+                  <div className="text-[11px] font-mono text-slate-400 space-y-1 mb-4">
+                    <div>Resting: <span className="text-slate-200">{artifact.coordinates.landingSite}</span></div>
+                    <div>Silenced: <span className="text-slate-200">{artifact.finalSignalDate}</span> ({artifact.operationalDays} days active)</div>
+                  </div>
                 </div>
 
-                <h3 className="text-lg font-light tracking-wide text-white group-hover:text-amber-200 transition-colors mb-2 font-heading">
-                  {artifact.name}
-                </h3>
+                {/* Commendation Salute Action */}
+                <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+                  <button
+                    onClick={(e) => handleSalute(artifact.id, e)}
+                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono transition-all active:scale-95 ${
+                      isSaluting
+                        ? 'bg-cyan-400 text-slate-950 border-cyan-300 scale-105 shadow-[0_0_15px_rgba(6,182,212,0.8)]'
+                        : 'border-cyan-500/30 bg-cyan-950/40 text-cyan-300 hover:bg-cyan-500 hover:text-slate-950'
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>COMMENDATION ({saluteCount})</span>
+                  </button>
 
-                {/* Epitaph / Last words */}
-                {artifact.finalLogTranscript ? (
-                  <div className="p-3.5 rounded-lg border border-slate-800 bg-slate-950/60 mb-4 text-xs font-serif italic text-amber-200/90 leading-relaxed">
-                    {artifact.finalLogTranscript}
+                  <div className="flex items-center gap-1 text-xs font-mono text-slate-400 group-hover:text-white transition-colors">
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>DOSSIER</span>
                   </div>
-                ) : (
-                  <p className="text-xs text-slate-300 leading-relaxed mb-4 font-normal">
-                    {artifact.brief}
-                  </p>
-                )}
-
-                <div className="text-xs font-mono text-slate-400 space-y-1 mb-4">
-                  <div>Resting site: <span className="text-slate-200">{artifact.coordinates.landingSite}</span></div>
-                  <div>Final silence: <span className="text-slate-200">{artifact.finalSignalDate}</span> ({artifact.operationalDays} days active)</div>
                 </div>
               </div>
-
-              {/* Action Bar */}
-              <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between">
-                <button
-                  onClick={(e) => handleSalute(artifact.id, e)}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg border text-xs font-mono transition-all active:scale-95 ${
-                    isSaluting
-                      ? 'bg-amber-400 text-slate-950 border-amber-300 scale-105 shadow-[0_0_15px_rgba(245,158,11,0.5)]'
-                      : 'border-amber-500/30 bg-amber-500/10 text-amber-400 hover:bg-amber-500 hover:text-slate-950'
-                  }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>TRANSMIT SALUTE ({saluteCount})</span>
-                </button>
-
-                <div className="flex items-center gap-1 text-xs font-mono text-slate-400 group-hover:text-white transition-colors">
-                  <Eye className="w-3.5 h-3.5" />
-                  <span>VIEW DOSSIER</span>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

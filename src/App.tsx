@@ -13,7 +13,7 @@ import { museumAudio } from './utils/audio';
 import { 
   Search, 
   X, 
-  ArrowRight
+  Compass
 } from 'lucide-react';
 
 export function App() {
@@ -22,13 +22,14 @@ export function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeArtifact, setActiveArtifact] = useState<Artifact | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [eraFilter, setEraFilter] = useState<string>('all');
 
   // Filtered lists for Moon and Mars
   const moonArtifacts = useMemo(() => ARTIFACTS.filter(a => a.celestialBody === 'moon'), []);
   const marsArtifacts = useMemo(() => ARTIFACTS.filter(a => a.celestialBody === 'mars'), []);
   const deepSpaceArtifacts = useMemo(() => ARTIFACTS.filter(a => a.celestialBody === 'deep_space'), []);
 
-  // Filter logic based on active view and search
+  // Filter logic based on active view, era, category, and search
   const visibleArtifacts = useMemo(() => {
     let baseList = ARTIFACTS;
 
@@ -45,6 +46,12 @@ export function App() {
     return baseList.filter((item) => {
       if (selectedCategory !== 'all' && item.category !== selectedCategory) return false;
 
+      if (eraFilter !== 'all') {
+        if (eraFilter === 'apollo' && (item.launchYear < 1966 || item.launchYear > 1974)) return false;
+        if (eraFilter === 'pioneer' && (item.launchYear < 1975 || item.launchYear > 1999)) return false;
+        if (eraFilter === 'modern' && item.launchYear < 2000) return false;
+      }
+
       if (searchQuery.trim() !== '') {
         const q = searchQuery.toLowerCase();
         const matchesName = item.name.toLowerCase().includes(q);
@@ -58,7 +65,7 @@ export function App() {
 
       return true;
     });
-  }, [currentView, moonArtifacts, marsArtifacts, deepSpaceArtifacts, selectedCategory, searchQuery]);
+  }, [currentView, moonArtifacts, marsArtifacts, deepSpaceArtifacts, selectedCategory, eraFilter, searchQuery]);
 
   return (
     <div className="min-h-screen bg-[#020408] text-slate-100 flex flex-col relative selection:bg-amber-400 selection:text-slate-950 stars-bg font-sans">
@@ -147,76 +154,176 @@ export function App() {
           </div>
         )}
 
-        {/* VIEW: MOON ARCHIVE */}
+        {/* VIEW: MOON ARCHIVE (COMMAND CENTER TWO-COLUMN LAYOUT) */}
         {currentView === 'moon' && (
           <div className="space-y-8 animate-fade-in">
-            <div className="p-6 sm:p-8 rounded-3xl nova-glass border border-white/10 flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <div className="space-y-2">
+            {/* Top Sector HUD Bar */}
+            <div className="p-6 sm:p-8 rounded-2xl bg-[#050811]/90 backdrop-blur-xl border border-white/10 flex flex-col md:flex-row md:items-end justify-between gap-6 shadow-2xl">
+              <div className="space-y-2 max-w-2xl">
                 <span className="text-[10px] font-mono tracking-[0.2em] text-slate-400 uppercase">
-                  LUNA ARCHIVE // 7 ACTIVE SITES
+                  LUNA SECTOR // TIDALLY LOCKED // GRAVITY: 1.62 m/s²
                 </span>
                 <h2 className="text-2xl sm:text-4xl font-heading font-light tracking-wide text-white">
                   Monuments of the Moon
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-400 font-light max-w-2xl leading-relaxed">
-                  From Apollo 11’s descent stage at Tranquility Base to the lunar roving vehicles resting at Hadley Rille and Taurus-Littrow.
+                <p className="text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+                  Humanity's first extraterrestrial footprints and permanent technological stations, from the Apollo 11 descent stage to the rovers resting across Mare Imbrium and Taurus-Littrow.
                 </p>
               </div>
 
-              <button
-                onClick={() => setCurrentView('radar')}
-                className="px-4 py-2 rounded-full nova-glass text-xs font-heading text-slate-300 hover:text-white transition-all shrink-0 flex items-center gap-2"
-              >
-                <span>OPEN LUNAR RADAR</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              <div className="grid grid-cols-2 gap-3 shrink-0 font-mono text-xs">
+                <div className="p-3 rounded-xl bg-[#090e1c] border border-white/10">
+                  <div className="text-[10px] text-slate-400 uppercase">LUNAR RELICS</div>
+                  <div className="text-xl font-bold text-white mt-0.5">{moonArtifacts.length} Sites</div>
+                </div>
+                <div className="p-3 rounded-xl bg-[#090e1c] border border-white/10">
+                  <div className="text-[10px] text-slate-400 uppercase">DISTANCE</div>
+                  <div className="text-xl font-bold text-cyan-300 mt-0.5">384,400 km</div>
+                </div>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {visibleArtifacts.map((artifact) => (
-                <ArtifactCard
-                  key={artifact.id}
-                  artifact={artifact}
-                  onSelect={(item) => setActiveArtifact(item)}
-                />
-              ))}
+            {/* Two-Column Command Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Left Drawer: Era & Classification */}
+              <div className="lg:col-span-3 rounded-2xl bg-[#050811]/90 backdrop-blur-xl border border-white/10 p-4 space-y-4 font-mono text-xs">
+                <div className="text-[11px] text-slate-400 uppercase tracking-widest border-b border-white/10 pb-2">
+                  LUNAR ERAS
+                </div>
+
+                <div className="space-y-1">
+                  {[
+                    { id: 'all', label: 'All Expeditions' },
+                    { id: 'apollo', label: 'Surveyor & Apollo (1966-1972)' },
+                    { id: 'modern', label: 'Modern Lunar Pioneers' },
+                  ].map(era => (
+                    <button
+                      key={era.id}
+                      onClick={() => {
+                        museumAudio.playClick(750);
+                        setEraFilter(era.id);
+                      }}
+                      className={`w-full py-2 px-3 rounded-lg text-left flex items-center justify-between transition-colors ${
+                        eraFilter === era.id
+                          ? 'bg-cyan-950/60 border border-cyan-500/50 text-cyan-300 font-bold'
+                          : 'bg-[#080d1a] border border-white/5 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <span>{era.label}</span>
+                      {eraFilter === era.id && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="pt-3 border-t border-white/10 space-y-2">
+                  <div className="text-[10px] text-slate-400 uppercase">3D ORBITAL SIMULATION</div>
+                  <button
+                    onClick={() => setCurrentView('tracker')}
+                    className="w-full py-2 rounded-lg bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-600 hover:text-white transition-colors text-center font-bold flex items-center justify-center gap-2"
+                  >
+                    <Compass className="w-3.5 h-3.5" />
+                    <span>LAUNCH 3D TRACKER</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Right Cards Grid */}
+              <div className="lg:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-5">
+                {visibleArtifacts.map((artifact) => (
+                  <ArtifactCard
+                    key={artifact.id}
+                    artifact={artifact}
+                    onSelect={(item) => setActiveArtifact(item)}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         )}
 
-        {/* VIEW: MARS ARCHIVE */}
+        {/* VIEW: MARS ARCHIVE (COMMAND CENTER TWO-COLUMN LAYOUT) */}
         {currentView === 'mars' && (
           <div className="space-y-8 animate-fade-in">
-            <div className="p-6 sm:p-8 rounded-3xl nova-glass border border-white/10 flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <div className="space-y-2">
-                <span className="text-[10px] font-mono tracking-[0.2em] text-amber-400/80 uppercase">
-                  ARES ARCHIVE // 7 HISTORIC EXPEDITIONS
+            {/* Top Sector HUD Bar */}
+            <div className="p-6 sm:p-8 rounded-2xl bg-[#050811]/90 backdrop-blur-xl border border-white/10 flex flex-col md:flex-row md:items-end justify-between gap-6 shadow-2xl">
+              <div className="space-y-2 max-w-2xl">
+                <span className="text-[10px] font-mono tracking-[0.2em] text-amber-400/90 uppercase">
+                  ARES SECTOR // 24H 37M SOL // GRAVITY: 3.72 m/s²
                 </span>
                 <h2 className="text-2xl sm:text-4xl font-heading font-light tracking-wide text-white">
                   Monuments of Mars
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-400 font-light max-w-2xl leading-relaxed">
-                  The brave robotic pathfinders, marathon rovers, and arctic landers resting in the red ferric soil of Mars.
+                <p className="text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+                  The robotic explorers, rovers, and landers that braved catastrophic ferric dust storms and polar dry ice to uncover the ancient watery history of Mars.
                 </p>
               </div>
 
-              <button
-                onClick={() => setCurrentView('radar')}
-                className="px-4 py-2 rounded-full nova-glass text-xs font-heading text-slate-300 hover:text-white transition-all shrink-0 flex items-center gap-2"
-              >
-                <span>OPEN MARTIAN RADAR</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              <div className="grid grid-cols-2 gap-3 shrink-0 font-mono text-xs">
+                <div className="p-3 rounded-xl bg-[#090e1c] border border-white/10">
+                  <div className="text-[10px] text-slate-400 uppercase">MARTIAN RELICS</div>
+                  <div className="text-xl font-bold text-white mt-0.5">{marsArtifacts.length} Relics</div>
+                </div>
+                <div className="p-3 rounded-xl bg-[#090e1c] border border-white/10">
+                  <div className="text-[10px] text-slate-400 uppercase">DISTANCE</div>
+                  <div className="text-xl font-bold text-amber-400 mt-0.5">225M km</div>
+                </div>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {visibleArtifacts.map((artifact) => (
-                <ArtifactCard
-                  key={artifact.id}
-                  artifact={artifact}
-                  onSelect={(item) => setActiveArtifact(item)}
-                />
-              ))}
+            {/* Two-Column Command Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Left Drawer: Era & Classification */}
+              <div className="lg:col-span-3 rounded-2xl bg-[#050811]/90 backdrop-blur-xl border border-white/10 p-4 space-y-4 font-mono text-xs">
+                <div className="text-[11px] text-slate-400 uppercase tracking-widest border-b border-white/10 pb-2">
+                  MARTIAN ERAS
+                </div>
+
+                <div className="space-y-1">
+                  {[
+                    { id: 'all', label: 'All Expeditions' },
+                    { id: 'pioneer', label: 'Viking & Pathfinder (1975-1997)' },
+                    { id: 'modern', label: 'MER & Modern Rovers (2003+)' },
+                  ].map(era => (
+                    <button
+                      key={era.id}
+                      onClick={() => {
+                        museumAudio.playClick(750);
+                        setEraFilter(era.id);
+                      }}
+                      className={`w-full py-2 px-3 rounded-lg text-left flex items-center justify-between transition-colors ${
+                        eraFilter === era.id
+                          ? 'bg-amber-950/60 border border-amber-500/50 text-amber-300 font-bold'
+                          : 'bg-[#080d1a] border border-white/5 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <span>{era.label}</span>
+                      {eraFilter === era.id && <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="pt-3 border-t border-white/10 space-y-2">
+                  <div className="text-[10px] text-slate-400 uppercase">3D ORBITAL SIMULATION</div>
+                  <button
+                    onClick={() => setCurrentView('tracker')}
+                    className="w-full py-2 rounded-lg bg-amber-950/60 border border-amber-500/40 text-amber-300 hover:bg-amber-600 hover:text-white transition-colors text-center font-bold flex items-center justify-center gap-2"
+                  >
+                    <Compass className="w-3.5 h-3.5" />
+                    <span>LAUNCH 3D TRACKER</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Right Cards Grid */}
+              <div className="lg:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-5">
+                {visibleArtifacts.map((artifact) => (
+                  <ArtifactCard
+                    key={artifact.id}
+                    artifact={artifact}
+                    onSelect={(item) => setActiveArtifact(item)}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -249,7 +356,7 @@ export function App() {
             <DeepSpaceView
               artifacts={ARTIFACTS}
               onSelectArtifact={(item) => setActiveArtifact(item)}
-              onOpenRadar={() => setCurrentView('radar')}
+              onOpenRadar={() => setCurrentView('tracker')}
             />
           </div>
         )}
@@ -259,7 +366,7 @@ export function App() {
       {isSearchOpen && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-black/80 backdrop-blur-md animate-fade-in">
           <div className="fixed inset-0" onClick={() => setIsSearchOpen(false)} />
-          <div className="relative w-full max-w-xl nova-glass rounded-2xl p-5 border border-white/10 shadow-2xl z-10 space-y-4">
+          <div className="relative w-full max-w-xl rounded-2xl bg-[#050811] p-5 border border-white/10 shadow-2xl z-10 space-y-4">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
                 <Search className="w-4 h-4 text-slate-400" />
@@ -315,14 +422,14 @@ export function App() {
         onClose={() => setActiveArtifact(null)}
       />
 
-      {/* Minimalist NOVA Footer */}
+      {/* Minimalist Footer */}
       <footer className="border-t border-white/5 py-8 text-xs font-mono text-slate-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
             <span className="font-heading font-light tracking-widest text-white uppercase">AFTERLIGHT</span>
             <span className="text-slate-400">•</span>
-            <span className="text-slate-400">NOVA EXPLORATION SPECIFICATION</span>
+            <span className="text-slate-400">NOVA / ORBIT CODEX EXPLORATION SPECIFICATION</span>
           </div>
 
           <div className="flex items-center gap-4 text-slate-400 text-[11px]">
