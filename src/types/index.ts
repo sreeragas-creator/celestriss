@@ -69,6 +69,7 @@ export interface Artifact {
 
 export type ViewMode = 
   | 'overview' 
+  | 'tracker'
   | 'moon' 
   | 'mars' 
   | 'radar' 

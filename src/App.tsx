@@ -6,6 +6,7 @@ import { HeroSection } from './components/HeroSection';
 import { ArtifactCard } from './components/ArtifactCard';
 import { ArtifactModal } from './components/ArtifactModal';
 import { PlanetaryMap } from './components/PlanetaryMap';
+import { OrbitalTracker } from './components/OrbitalTracker';
 import { MemorialView } from './components/MemorialView';
 import { DeepSpaceView } from './components/DeepSpaceView';
 import { museumAudio } from './utils/audio';
@@ -85,7 +86,7 @@ export function App() {
                 const el = document.getElementById('archive-grid');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              onOpenMap={() => setCurrentView('radar')}
+              onOpenMap={() => setCurrentView('tracker')}
             />
 
             {/* Quick Section Shortcuts */}
@@ -132,6 +133,17 @@ export function App() {
                 ))}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* VIEW: 3D ORBITAL TRACKER (NOVA / ORBIT CODEX REFERENCE SPEC) */}
+        {currentView === 'tracker' && (
+          <div className="animate-fade-in space-y-6">
+            <OrbitalTracker
+              artifacts={ARTIFACTS}
+              onSelectArtifact={(item) => setActiveArtifact(item)}
+              defaultBody="moon"
+            />
           </div>
         )}
 

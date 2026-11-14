@@ -29,12 +29,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const navItems: { id: ViewMode; label: string }[] = [
-    { id: 'overview', label: 'Overview' },
+    { id: 'overview', label: 'Home' },
+    { id: 'tracker', label: '3D Tracker' },
     { id: 'moon', label: 'Moon Archive' },
     { id: 'mars', label: 'Mars Archive' },
-    { id: 'radar', label: 'Planetary Radar' },
+    { id: 'radar', label: 'Radar' },
     { id: 'memorial', label: 'Silent Witnesses' },
-    { id: 'deep_space', label: 'Deep Space Vault' },
+    { id: 'deep_space', label: 'Deep Space' },
   ];
 
   return (
@@ -91,6 +92,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             title="Search Relics & Missions"
           >
             <Search className="w-3.5 h-3.5" />
+          </button>
+
+          {/* 3D Tracker Pill Button matching reference */}
+          <button
+            onClick={() => {
+              museumAudio.playClick(900);
+              onSelectView('tracker');
+            }}
+            className={`hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold transition-all border ${
+              currentView === 'tracker'
+                ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.5)]'
+                : 'bg-cyan-950/40 text-cyan-400 border-cyan-500/40 hover:bg-cyan-900/50'
+            }`}
+          >
+            <CircleDot className="w-3 h-3 animate-pulse" />
+            <span>3D TRACKER</span>
           </button>
 
           {/* Audio Synthesizer Toggle */}

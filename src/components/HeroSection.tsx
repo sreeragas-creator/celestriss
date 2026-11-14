@@ -79,10 +79,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 museumAudio.playClick(850);
                 onOpenMap();
               }}
-              className="px-6 py-2.5 rounded-full nova-glass text-slate-300 hover:text-white font-heading text-xs font-light tracking-wider hover:border-white/20 transition-all flex items-center gap-2 active:scale-95"
+              className="px-6 py-2.5 rounded-full nova-glass text-cyan-300 hover:text-white font-heading text-xs font-light tracking-wider hover:border-cyan-500/40 transition-all flex items-center gap-2 active:scale-95 border border-cyan-500/20"
             >
-              <Compass className="w-3.5 h-3.5 text-slate-400" />
-              <span>SURFACE RADAR</span>
+              <Compass className="w-3.5 h-3.5 text-cyan-400 animate-spin" />
+              <span>3D ORBITAL TRACKER</span>
             </button>
           </div>
 
