@@ -51,7 +51,7 @@ export const MemorialView: React.FC<MemorialViewProps> = ({ artifacts, onSelectA
             <span>EXHIBIT CHAMBER IV // SILENT WITNESSES</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white font-cinzel">
+          <h2 className="text-2xl sm:text-4xl font-light tracking-wide text-white font-heading">
             Abandoned, but Never Forgotten.
           </h2>
 
@@ -94,7 +94,7 @@ export const MemorialView: React.FC<MemorialViewProps> = ({ artifacts, onSelectA
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-white group-hover:text-amber-300 transition-colors mb-2 font-cinzel">
+                <h3 className="text-lg font-light tracking-wide text-white group-hover:text-amber-200 transition-colors mb-2 font-heading">
                   {artifact.name}
                 </h3>
 

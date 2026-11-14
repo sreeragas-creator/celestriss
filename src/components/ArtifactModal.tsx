@@ -88,7 +88,7 @@ export const ArtifactModal: React.FC<ArtifactModalProps> = ({ artifact, onClose 
                 <span>•</span>
                 <span>YEAR {artifact.launchYear}</span>
               </div>
-              <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white font-cinzel">
+              <h1 className="text-2xl sm:text-4xl font-light tracking-wide text-white font-heading">
                 {artifact.name}
               </h1>
               <p className="text-sm font-mono text-slate-300 mt-2 flex items-center gap-2">

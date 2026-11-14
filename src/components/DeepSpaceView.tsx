@@ -30,7 +30,7 @@ export const DeepSpaceView: React.FC<DeepSpaceViewProps> = ({
             <span>SECONDARY EXHIBITION VAULT // BEYOND MOON & MARS</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white font-cinzel">
+          <h2 className="text-2xl sm:text-4xl font-light tracking-wide text-white font-heading">
             The Deep Space Relics
           </h2>
 

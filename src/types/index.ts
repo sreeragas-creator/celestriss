@@ -67,4 +67,10 @@ export interface Artifact {
   };
 }
 
-export type ViewMode = 'archive' | 'map' | 'timeline' | 'memorial' | 'deep_space';
+export type ViewMode = 
+  | 'overview' 
+  | 'moon' 
+  | 'mars' 
+  | 'radar' 
+  | 'memorial' 
+  | 'deep_space';

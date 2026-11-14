@@ -89,7 +89,7 @@ export const PlanetaryMap: React.FC<PlanetaryMapProps> = ({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-base sm:text-lg font-bold tracking-wide text-white uppercase font-cinzel">
+              <h2 className="text-base sm:text-lg font-light tracking-wide text-white uppercase font-heading">
                 Orbital Surface & Celestial Radar
               </h2>
               <span className="rounded bg-slate-800 px-2 py-0.5 text-[10px] font-mono text-amber-400 border border-amber-500/30">
@@ -327,7 +327,7 @@ export const PlanetaryMap: React.FC<PlanetaryMapProps> = ({
                   // {hoveredArtifact.coordinates.landingSite}
                 </span>
               </div>
-              <h3 className="text-base font-semibold text-white tracking-wide font-cinzel">
+              <h3 className="text-base font-light tracking-wide text-white font-heading">
                 {hoveredArtifact.name}
               </h3>
               <p className="text-xs text-slate-300 line-clamp-1 max-w-3xl font-normal">
